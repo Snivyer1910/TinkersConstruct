@@ -1,5 +1,10 @@
 accessWidener   v1  named
 accessible field net/minecraft/tag/ItemTags REQUIRED_TAGS Lnet/minecraft/tag/RequiredTagList;
+
+accessible field net/minecraft/tag/BlockTags REQUIRED_TAGS Lnet/minecraft/tag/RequiredTagList;
+accessible field net/minecraft/tag/EntityTypeTags REQUIRED_TAGS Lnet/minecraft/tag/RequiredTagList;
+accessible field net/minecraft/tag/FluidTags REQUIRED_TAGS Lnet/minecraft/tag/RequiredTagList;
+accessible field net/minecraft/tag/ItemTags REQUIRED_TAGS Lnet/minecraft/tag/RequiredTagList;
 accessible field net/minecraft/client/gui/screen/ingame/HandledScreen x I
 accessible field net/minecraft/client/gui/screen/ingame/HandledScreen y I
 accessible method net/minecraft/data/server/RecipesProvider conditionsFromItem (Lnet/minecraft/item/ItemConvertible;)Lnet/minecraft/advancement/criterion/InventoryChangedCriterion$Conditions;
