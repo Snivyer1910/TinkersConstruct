@@ -5,9 +5,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "name": "tconstruct:molten_copper",
+    "tag": "tconstruct:molten_copper",
     "amount": 16
   },
-  "result": "tconstruct:copper_nugget",
+  "result": {
+    "tag": "forge:nuggets/copper"
+  },
   "cooling_time": 17
 }

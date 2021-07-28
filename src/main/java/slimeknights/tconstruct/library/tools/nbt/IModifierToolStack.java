@@ -4,11 +4,13 @@ package slimeknights.tconstruct.library.tools.nbt;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import slimeknights.tconstruct.library.materials.IMaterial;
+import net.minecraft.tags.ITag;
+import slimeknights.tconstruct.library.materials.definition.IMaterial;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.tools.ToolDefinition;
 import slimeknights.tconstruct.library.tools.helper.ToolDamageUtil;
+import slimeknights.tconstruct.library.tools.stat.FloatToolStat;
 
 import java.util.List;
 
@@ -23,6 +25,16 @@ public interface IModifierToolStack {
 
   /** Gets the tool definition */
   ToolDefinition getDefinition();
+
+  /** Commonly used operation, getting a stat multiplier */
+  default float getModifier(FloatToolStat stat) {
+    return getDefinition().getBaseStatDefinition().getModifier(stat);
+  }
+
+  /** Checks if the tool has the given tag */
+  default boolean hasTag(ITag<Item> tag) {
+    return tag.contains(getItem());
+  }
 
 
   /* Damage state */
@@ -70,6 +82,9 @@ public interface IModifierToolStack {
 
 
   /* Modifiers */
+
+  /** Gets a list of modifiers that are specifically added to this tool. Unlike {@link #getModifiers()}, does not include modifiers from the tool or materials */
+  ModifierNBT getUpgrades();
 
   /** Gets a full list of effective modifiers on this tool, from both upgrades/abilities and material traits */
   ModifierNBT getModifiers();

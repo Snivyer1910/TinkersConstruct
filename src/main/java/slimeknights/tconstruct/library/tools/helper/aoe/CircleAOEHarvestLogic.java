@@ -9,7 +9,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import slimeknights.tconstruct.library.tools.helper.ToolHarvestLogic;
 import slimeknights.tconstruct.library.tools.helper.aoe.RectangleAOEHarvestLogic.RectangleIterator;
-import slimeknights.tconstruct.library.tools.nbt.ToolStack;
+import slimeknights.tconstruct.library.tools.nbt.IModifierToolStack;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 
 import java.util.Collections;
@@ -24,10 +24,7 @@ public class CircleAOEHarvestLogic extends ToolHarvestLogic {
   protected final boolean is3D;
 
   @Override
-  public Iterable<BlockPos> getAOEBlocks(ToolStack tool, ItemStack stack, PlayerEntity player, BlockState state, World world, BlockPos origin, Direction sideHit, AOEMatchType matchType) {
-    if (!canAOE(tool, stack, state, matchType)) {
-      return Collections.emptyList();
-    }
+  public Iterable<BlockPos> getAOEBlocks(IModifierToolStack tool, ItemStack stack, PlayerEntity player, BlockState state, World world, BlockPos origin, Direction sideHit, AOEMatchType matchType) {
     // expanded gives an extra width every odd level, and an extra height every even level
     int expanded = tool.getModifierLevel(TinkerModifiers.expanded);
     return calculate(this, tool, stack, world, player, origin, sideHit, diameter + expanded, is3D, matchType);
@@ -46,7 +43,7 @@ public class CircleAOEHarvestLogic extends ToolHarvestLogic {
    * @param matchType  Type of harvest being performed
    * @return  List of block positions
    */
-  public static Iterable<BlockPos> calculate(ToolHarvestLogic self, ToolStack tool, ItemStack stack, World world, PlayerEntity player, BlockPos origin, Direction sideHit, int diameter, boolean is3D, AOEMatchType matchType) {
+  public static Iterable<BlockPos> calculate(ToolHarvestLogic self, IModifierToolStack tool, ItemStack stack, World world, PlayerEntity player, BlockPos origin, Direction sideHit, int diameter, boolean is3D, AOEMatchType matchType) {
     // skip if no work
     if (diameter == 1) {
       return Collections.emptyList();

@@ -5,13 +5,26 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import slimeknights.tconstruct.library.SlimeBounceHandler;
+import slimeknights.tconstruct.library.utils.SlimeBounceHandler;
 import slimeknights.tconstruct.shared.block.SlimeType;
 
 public class SkySlimeSlingItem extends BaseSlimeSlingItem {
 
   public SkySlimeSlingItem(Settings props) {
     super(props, SlimeType.SKY);
+  }
+
+  @Override
+  public float getForce(ItemStack stack, int timeLeft) {
+    int i = this.getUseDuration(stack) - timeLeft;
+    float f = i / 20.0F;
+    f = (f * f + f * 2.0F) / 3.0F;
+    f *= 4f;
+
+    if (f > 3f) {
+      f = 3f;
+    }
+    return f;
   }
 
   /** Called when the player stops using an Item (stops holding the right mouse button). */
@@ -28,7 +41,7 @@ public class SkySlimeSlingItem extends BaseSlimeSlingItem {
       return;
     }
 
-    float f = getForce(stack, timeLeft) / 2;
+    float f = getForce(stack, timeLeft);
 
     player.addExhaustion(0.2F);
     player.getItemCooldownManager().set(stack.getItem(), 3);

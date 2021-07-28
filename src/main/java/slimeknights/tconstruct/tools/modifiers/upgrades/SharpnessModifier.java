@@ -4,10 +4,11 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TextColor;
 import net.minecraft.text.TranslatableText;
 import slimeknights.tconstruct.library.modifiers.IncrementalModifier;
-import slimeknights.tconstruct.library.tools.ModifierStatsBuilder;
 import slimeknights.tconstruct.library.tools.ToolDefinition;
 import slimeknights.tconstruct.library.tools.nbt.IModDataReadOnly;
 import slimeknights.tconstruct.library.tools.nbt.StatsNBT;
+import slimeknights.tconstruct.library.tools.stat.ModifierStatsBuilder;
+import slimeknights.tconstruct.library.tools.stat.ToolStats;
 
 public class SharpnessModifier extends IncrementalModifier {
   public SharpnessModifier() {
@@ -26,12 +27,8 @@ public class SharpnessModifier extends IncrementalModifier {
 
   @Override
   public void addToolStats(ToolDefinition toolDefinition, StatsNBT baseStats, IModDataReadOnly persistentData, IModDataReadOnly volatileData, int level, ModifierStatsBuilder builder) {
-    // vanilla give +1, 1.5, 2, 2.5, 3
-    // to make up for that 0.5 on the first level, we give a small bonus after the first level
-    float scaledLevel = getScaledLevel(persistentData, level);
-    if (scaledLevel >= 1) {
-      scaledLevel += 1;
-    }
-    builder.addAttackDamage(scaledLevel * 0.5f);
+    // vanilla give +1, 1.5, 2, 2.5, 3, but that is stupidly low
+    // we instead do +1, 2,  3, 4,   5
+    ToolStats.ATTACK_DAMAGE.add(builder, getScaledLevel(persistentData, level));
   }
 }

@@ -1,19 +1,29 @@
 [
   {
     "name": "intro",
-    "data": "sections/intro_tmp.json",
+    "data": "sections/introduction.json",
     "icon": {
       "item": {
-        "id": "tconstruct:blue_slime_ball"
+        "id": "tconstruct:blank_cast"
       }
     }
   },
   {
-    "name": "tools",
-    "data": "sections/tools.json",
+    "name": "smeltery",
+    "data": "sections/smeltery.json",
     "icon": {
       "item": {
-        "id": "minecraft:iron_pickaxe",
+        "id": "tconstruct:smeltery_controller",
+        "damage": 0
+      }
+    }
+  },
+  {
+    "name": "entity_melting",
+    "data": "sections/entitymelting.json",
+    "icon": {
+      "item": {
+        "id": "minecraft:creeper_head",
         "damage": 0
       }
     }
@@ -27,11 +37,33 @@
     }
   },
   {
-    "name": "tier_four_materials",
+    "name": "tools",
+    "data": "sections/tools.json",
     "icon": {
       "item": {
-        "id": "tconstruct:manyullyn_ingot"
+        "id": "tconstruct:cleaver",
+        "nbt": {
+          "tic_broken": false,
+          "tic_display_tool": true,
+          "Damage": 0,
+          "tic_materials": [
+            "tconstruct:ui_render_head",
+            "tconstruct:ui_render_handle",
+            "tconstruct:ui_render_extra",
+            "tconstruct:ui_render_large"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "name": "abilities",
+    "data": "sections/abilities.json",
+    "icon": {
+      "item": {
+        "id": "tconstruct:creative_ability"
       }
     }
   }
+  
 ]

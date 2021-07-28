@@ -1,119 +1,123 @@
 package slimeknights.tconstruct.library.tools;
 
+import com.google.common.collect.ImmutableMap;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import slimeknights.tconstruct.library.TinkerAPIException;
+import slimeknights.tconstruct.library.tools.stat.FloatToolStat;
+import slimeknights.tconstruct.library.tools.stat.ModifierStatsBuilder;
+
+import java.util.Map;
+import java.util.Set;
 
 /**
  * This class defines the innate properties of a tool.
  * Everything before materials are factored in.
  */
-@Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public final class ToolBaseStatDefinition {
   /* General */
 
-  /** Durability modifier */
-  private final float durabilityModifier;
-
   /** All heads after the first are divided by this number on repairs, and the first stats are duplicated this many times on stat build */
+  @Getter
   private final int primaryHeadWeight;
 
   /** Number of upgrades new tools start with */
+  @Getter
   private final int defaultUpgrades;
   /** Number of abilities new tools start with */
+  @Getter
   private final int defaultAbilities;
   /** Number of trait slots for the tool forge the tool starts with */
+  @Getter
   private final int defaultTraits;
 
-  /** Extra reach to use to boost a tool's range */
-  private final float reachBonus;
+  /** Bonuses to include as part of tool stat building */
+  private final Map<FloatToolStat, Float> bonuses;
 
-  /* Harvest */
+  /** Multipliers to include during modifier building */
+  private final Map<FloatToolStat, Float> modifiers;
 
-  /**
-   * Multiplier applied to the actual mining speed of the tool
-   * Internally a hammer and pick have the same speed, but a hammer is 2/3 slower
-   */
-  private final float miningSpeedModifier;
-
-
-  /* Weapon */
-
-  /** Value to add to the base damage before multiplying */
-  private final float damageBonus;
-
-  /** Multiplier for damage from materials. Should be defined per tool. */
-  private final float damageModifier;
+  /** Gets a set of bonuses applied to this tool, for stat building */
+  public Set<FloatToolStat> getAllBonuses() {
+    return bonuses.keySet();
+  }
 
   /**
-   * A fixed damage value where the calculations start to apply dimishing returns.
-   * Basically if you'd hit more than that damage with this tool, the damage is gradually reduced depending on how much the cutoff is exceeded.
-   * Helps keeping power creep in check.
-   * The default is 15, in general this should be sufficient and only needs increasing if it's a stronger weapon.
-   * A diamond sword with sharpness V has 15 damage
+   * Gets the stat bonus for this tool, the tools stat builder is responsible for using these
    */
-  private final float damageCutoff;
+  public float getBonus(FloatToolStat stat) {
+    return bonuses.getOrDefault(stat, 0f);
+  }
 
   /**
-   * Allows you set the base attack speed, can be changed by modifiers. Equivalent to the vanilla attack speed.
-   * 4 is equal to any standard item. Value has to be greater than zero.
+   * Gets the stat multiplier for this tool, used by modifiers and during modifier application.
+   *
+   * In most cases, its better to use {@link slimeknights.tconstruct.library.tools.nbt.IModifierToolStack#getModifier(FloatToolStat)} as that takes the modifier multiplier into account
    */
-  private final float attackSpeed;
-
-  /** Knockback bonus to apply when fully charged. 0.5 is the same as 1 level of vanilla knockback, or the bonus from sprinting */
-  private final float knockbackBonus;
+  public float getModifier(FloatToolStat stat) {
+    return modifiers.getOrDefault(stat, 1f);
+  }
 
   /**
    * Applies the extra tool stats to the tool like a modifier
    * @param builder  Tool stats builder
    */
   public void buildStats(ModifierStatsBuilder builder) {
-    // general
-    builder.multiplyDurability(durabilityModifier);
-    builder.addReach(reachBonus);
-    // harvest
-    builder.multiplyMiningSpeed(miningSpeedModifier);
-    // weapon
-    builder.addAttackDamage(damageBonus);
-    builder.multiplyAttackDamage(damageModifier);
-    builder.multiplyAttackSpeed(attackSpeed);
+    modifiers.forEach((stat, value) -> stat.multiplyAll(builder, value));
   }
 
   /** Tool stat builder */
   @Setter @Accessors(chain = true)
   public static class Builder {
     // general
-    private float durabilityModifier = 1f;
-    private float reachBonus = 0f;
     private int primaryHeadWeight = 1;
     private int defaultUpgrades = 3;
     private int defaultAbilities = 1;
     private int defaultTraits = 0;
-    // harvest
-    private float miningSpeedModifier = 1f;
-    // weapon
-    private float damageBonus = 0f;
-    private float damageModifier = 1f;
-    private float damageCutoff = 15f;
-    private float attackSpeed = 1f;
-    private float knockbackBonus = 0;
+    // stats
+    private final ImmutableMap.Builder<FloatToolStat,Float> bonuses = ImmutableMap.builder();
+    private final ImmutableMap.Builder<FloatToolStat,Float> modifiers = ImmutableMap.builder();
+
+    /**
+     * Adds a bonus to the builder, applied during tool stat creation
+     * @param stat   Stat to apply
+     * @param bonus  Bonus amount
+     * @return  Builder
+     */
+    public Builder bonus(FloatToolStat stat, float bonus) {
+      bonuses.put(stat, bonus);
+      return this;
+    }
+
+    /**
+     * Sets the stat to a particular value, replacing the default value.
+     * Internally, sets the bonus to the passed value minus the default value, as the default will be added down the line
+     * @param stat   Stat to apply
+     * @param value  Value to set
+     * @return  Builder
+     */
+    public Builder set(FloatToolStat stat, float value) {
+      bonuses.put(stat, value - stat.getDefaultValue());
+      return this;
+    }
+
+    /**
+     * Adds a multiplier to the tool, applied during modifier stats
+     * @param stat   Stat to apply
+     * @param bonus  Multiplier
+     * @return  Builder
+     */
+    public Builder modifier(FloatToolStat stat, float bonus) {
+      modifiers.put(stat, bonus);
+      return this;
+    }
 
     /** Creates the tool stat definition */
     public ToolBaseStatDefinition build() {
-      if (damageModifier < 0.001) {
-        throw new TinkerAPIException("Trying to define a tool without damage modifier set. Damage modifier has to be defined per tool and should be greater than 0.001");
-      }
-      return new ToolBaseStatDefinition(
-        durabilityModifier, primaryHeadWeight,
-        defaultUpgrades, defaultAbilities, defaultTraits,
-        reachBonus, miningSpeedModifier,
-        damageBonus, damageModifier, damageCutoff,
-        attackSpeed, knockbackBonus
-      );
+      return new ToolBaseStatDefinition(primaryHeadWeight, defaultUpgrades, defaultAbilities, defaultTraits, bonuses.build(), modifiers.build());
     }
   }
 }

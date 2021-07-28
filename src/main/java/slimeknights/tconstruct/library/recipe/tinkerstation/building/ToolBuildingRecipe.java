@@ -6,13 +6,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
-import slimeknights.tconstruct.library.materials.IMaterial;
+import slimeknights.tconstruct.library.materials.definition.IMaterial;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationInventory;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationRecipe;
-import slimeknights.tconstruct.library.tinkering.IMaterialItem;
-import slimeknights.tconstruct.library.tools.IToolPart;
-import slimeknights.tconstruct.library.tools.ToolBuildHandler;
-import slimeknights.tconstruct.library.tools.item.ToolCore;
+import slimeknights.tconstruct.library.tools.helper.ToolBuildHandler;
+import slimeknights.tconstruct.library.tools.item.IModifiable;
+import slimeknights.tconstruct.library.tools.part.IMaterialItem;
+import slimeknights.tconstruct.library.tools.part.IToolPart;
 import slimeknights.tconstruct.tables.TinkerTables;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class ToolBuildingRecipe implements ITinkerStationRecipe {
   protected final Identifier id;
   @Getter
   protected final String group;
-  protected final ToolCore output;
+  protected final IModifiable output;
 
   @Override
   public RecipeSerializer<?> getSerializer() {
@@ -40,9 +40,11 @@ public class ToolBuildingRecipe implements ITinkerStationRecipe {
     if (!inv.getTinkerableStack().isEmpty()) {
       return false;
     }
-
-    // each part must match the given slot
     List<IToolPart> parts = output.getToolDefinition().getRequiredComponents();
+    if (parts.isEmpty()) {
+      return false;
+    }
+    // each part must match the given slot
     int i;
     for (i = 0; i < parts.size(); i++) {
       if (parts.get(i).asItem() != inv.getInput(i).getItem()) {

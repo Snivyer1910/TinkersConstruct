@@ -7,30 +7,33 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
-import slimeknights.tconstruct.library.MaterialRegistry;
-import slimeknights.tconstruct.library.Util;
-import slimeknights.tconstruct.library.materials.IMaterial;
+import slimeknights.tconstruct.TConstruct;
+import slimeknights.tconstruct.library.materials.MaterialRegistry;
+import slimeknights.tconstruct.library.materials.definition.IMaterial;
+import slimeknights.tconstruct.library.materials.stats.IMaterialStats;
+import slimeknights.tconstruct.library.materials.stats.IRepairableMaterialStats;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
-import slimeknights.tconstruct.library.recipe.casting.material.MaterialItemCostLookup;
+import slimeknights.tconstruct.library.recipe.casting.material.MaterialCastingLookup;
+import slimeknights.tconstruct.library.recipe.material.MaterialRecipe;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationInventory;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationRecipe;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ValidatedResult;
-import slimeknights.tconstruct.library.tools.IToolPart;
+import slimeknights.tconstruct.library.recipe.tinkerstation.modifier.ModifierRecipeLookup;
+import slimeknights.tconstruct.library.tools.helper.ModifierUtil;
 import slimeknights.tconstruct.library.tools.helper.ToolDamageUtil;
-import slimeknights.tconstruct.library.tools.item.ToolCore;
+import slimeknights.tconstruct.library.tools.item.IModifiable;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
+import slimeknights.tconstruct.library.tools.part.IToolPart;
 import slimeknights.tconstruct.tables.TinkerTables;
-import slimeknights.tconstruct.tools.stats.HeadMaterialStats;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Recipe that replaces a tool part with another
  */
 @AllArgsConstructor
 public class TinkerStationPartSwapping implements ITinkerStationRecipe {
-  private static final ValidatedResult TOO_MANY_PARTS = ValidatedResult.failure(Util.makeTranslationKey("recipe", "part_swapping.too_many_parts"));
+  private static final ValidatedResult TOO_MANY_PARTS = ValidatedResult.failure(TConstruct.makeTranslationKey("recipe", "part_swapping.too_many_parts"));
 
   @Getter
   protected final Identifier id;
@@ -38,12 +41,17 @@ public class TinkerStationPartSwapping implements ITinkerStationRecipe {
   @Override
   public boolean matches(ITinkerStationInventory inv, World world) {
     ItemStack tinkerable = inv.getTinkerableStack();
-    if (tinkerable.isEmpty() || !(tinkerable.getItem() instanceof ToolCore)) {
+    if (tinkerable.isEmpty() || !(tinkerable.getItem() instanceof IModifiable)) {
       return false;
     }
+    // get the list of parts, empty means its not multipart
+    List<IToolPart> parts = ((IModifiable)tinkerable.getItem()).getToolDefinition().getRequiredComponents();
+    if (parts.isEmpty()) {
+      return false;
+    }
+
     // we have two concerns on part swapping:
     // part must be valid in the tool, and only up to one part can be swapped at once
-    List<IToolPart> parts = ((ToolCore)tinkerable.getItem()).getToolDefinition().getRequiredComponents();
     boolean foundItem = false;
     for (int i = 0; i < inv.getInputCount(); i++) {
       ItemStack stack = inv.getInput(i);
@@ -118,35 +126,38 @@ public class TinkerStationPartSwapping implements ITinkerStationRecipe {
         tool = tool.copy();
         tool.replaceMaterial(index, partMaterial);
 
-        // ensure no modifier problems
-        ValidatedResult toolValidation = tool.validate();
-        if (toolValidation.hasError()) {
-          return toolValidation;
-        }
-
-        // if swapping in a new head, repair the tool
-        if (part.getStatType().equals(HeadMaterialStats.ID)) {
-          ToolStack finalTool = tool;
+        // if swapping in a new head, repair the tool (assuming the give stats type can repair)
+        // ideally we would validate before repairing, but don't want to create the stack before repairing
+        IMaterialStats stats = MaterialRegistry.getInstance().getMaterialStats(partMaterial.getIdentifier(), part.getStatType()).orElse(null);
+        if (stats instanceof IRepairableMaterialStats) {
           // must have a registered recipe
-          int cost = MaterialItemCostLookup.getTableCost(part);
+          int cost = MaterialCastingLookup.getItemCost(part);
           if (cost > 0) {
-            // head stats determine repair amount
-            Optional<HeadMaterialStats> optional = MaterialRegistry.getInstance().getMaterialStats(partMaterial.getIdentifier(), HeadMaterialStats.ID);
-            optional.ifPresent(stats -> {
-              // apply modifier repair boost
-              float factor = cost / 4f; // vanilla ingots restore 25% durability, part head is worth 1 ingot per cost
-              for (ModifierEntry entry : finalTool.getModifierList()) {
-                factor = entry.getModifier().getRepairFactor(finalTool, entry.getLevel(), factor);
-                if (factor <= 0) {
-                  return;
-                }
+            // apply modifier repair boost
+            float factor = cost / MaterialRecipe.INGOTS_PER_REPAIR;
+            for (ModifierEntry entry : tool.getModifierList()) {
+              factor = entry.getModifier().getRepairFactor(tool, entry.getLevel(), factor);
+              if (factor <= 0) {
+                break;
               }
-              ToolDamageUtil.repair(finalTool, (int)(stats.getDurability() * factor));
-            });
+            }
+            if (factor > 0) {
+              ToolDamageUtil.repair(tool, (int)(((IRepairableMaterialStats)stats).getDurability() * factor));
+            }
           }
         }
 
-        return ValidatedResult.success(tool.createStack());
+        // ensure no modifier problems after removing
+        ItemStack result = tool.createStack();
+        ValidatedResult toolValidation = ModifierRecipeLookup.checkRequirements(result, tool);
+        if (toolValidation.hasError()) {
+          return toolValidation;
+        }
+        toolValidation = ModifierUtil.validateRemovedModifiers(tool, MaterialRegistry.getInstance().getTraits(toolMaterial.getIdentifier(), part.getStatType()));
+        if (toolValidation.hasError()) {
+          return toolValidation;
+        }
+        return ValidatedResult.success(result);
       }
     }
     // no item found, should never happen

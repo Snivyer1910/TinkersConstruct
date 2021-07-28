@@ -10,7 +10,7 @@ import net.minecraft.util.math.BlockPos.Mutable;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import slimeknights.tconstruct.library.tools.helper.ToolHarvestLogic;
-import slimeknights.tconstruct.library.tools.nbt.ToolStack;
+import slimeknights.tconstruct.library.tools.nbt.IModifierToolStack;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 
 import java.util.Collections;
@@ -27,10 +27,7 @@ public class RectangleAOEHarvestLogic extends ToolHarvestLogic {
   protected final int extraDepth;
 
   @Override
-  public Iterable<BlockPos> getAOEBlocks(ToolStack tool, ItemStack stack, PlayerEntity player, BlockState state, World world, BlockPos origin, Direction sideHit, AOEMatchType matchType) {
-    if (!canAOE(tool, stack, state, matchType)) {
-      return Collections.emptyList();
-    }
+  public Iterable<BlockPos> getAOEBlocks(IModifierToolStack tool, ItemStack stack, PlayerEntity player, BlockState state, World world, BlockPos origin, Direction sideHit, AOEMatchType matchType) {
     // expanded gives an extra width every odd level, and an extra height every even level
     int expanded = tool.getModifierLevel(TinkerModifiers.expanded);
     return calculate(this, tool, stack, world, player, origin, sideHit, extraWidth + ((expanded + 1) / 2), extraHeight + (expanded / 2), extraDepth, matchType);
@@ -51,7 +48,7 @@ public class RectangleAOEHarvestLogic extends ToolHarvestLogic {
    * @param matchType     Type of harvest being performed
    * @return  List of block positions
    */
-  public static Iterable<BlockPos> calculate(ToolHarvestLogic self, ToolStack tool, ItemStack stack, World world, PlayerEntity player, BlockPos origin, Direction sideHit,
+  public static Iterable<BlockPos> calculate(ToolHarvestLogic self, IModifierToolStack tool, ItemStack stack, World world, PlayerEntity player, BlockPos origin, Direction sideHit,
                                         int extraWidth, int extraHeight, int extraDepth, AOEMatchType matchType) {
     // skip if no work
     if (extraDepth == 0 && extraWidth == 0 && extraHeight == 0) {
@@ -109,23 +106,46 @@ public class RectangleAOEHarvestLogic extends ToolHarvestLogic {
     protected int lastX, lastY, lastZ;
 
     public RectangleIterator(BlockPos origin, Direction widthDir, int extraWidth, Direction heightDir, int extraHeight, Direction depthDir, int extraDepth, Predicate<BlockPos> posPredicate) {
+      this(origin, widthDir, extraWidth, heightDir, extraHeight, true, depthDir, extraDepth, posPredicate);
+    }
+
+    /**
+     * Iterates through a rectangular solid
+     * @param origin         Center position
+     * @param widthDir       Direction for width traversal
+     * @param extraWidth     Radius in width direction
+     * @param heightDir      Direction for height traversal
+     * @param extraHeight    Amount in the height direction
+     * @param traverseDown   If true, navigates extraHeight both up and down
+     * @param depthDir       Direction to travel backwards
+     * @param extraDepth     Extra amount to traverse in the backwards direction
+     * @param posPredicate   Predicate to validate positions
+     */
+    public RectangleIterator(BlockPos origin, Direction widthDir, int extraWidth, Direction heightDir, int extraHeight, boolean traverseDown, Direction depthDir, int extraDepth, Predicate<BlockPos> posPredicate) {
       this.origin = origin;
       this.widthDir = widthDir;
       this.heightDir = heightDir;
       this.depthDir = depthDir;
       this.maxWidth = extraWidth * 2;
-      this.maxHeight = extraHeight * 2;
+      this.maxHeight = traverseDown ? extraHeight * 2 : extraHeight;
       this.maxDepth = extraDepth;
       // start 1 block before start on the correct axis
       // computed values
       this.mutablePos = new Mutable(origin.getX(), origin.getY(), origin.getZ());
       this.posPredicate = posPredicate;
+      // offset position back by 1 so we start at 0, 0, 0
       if (extraWidth > 0) {
         currentWidth--;
       } else if (extraHeight > 0) {
         currentHeight--;
       }
-      this.mutablePos.move(widthDir, -extraWidth + currentWidth).move(heightDir, -extraHeight + currentHeight);
+      // offset the mutable position back along the rectangle
+      this.mutablePos.move(widthDir, -extraWidth + currentWidth);
+      if (traverseDown) {
+        this.mutablePos.move(heightDir, -extraHeight + currentHeight);
+      } else if (currentHeight != 0) {
+        this.mutablePos.move(heightDir, currentHeight);
+      }
       this.lastX = this.mutablePos.getX();
       this.lastY = this.mutablePos.getY();
       this.lastZ = this.mutablePos.getZ();

@@ -5,9 +5,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "name": "tconstruct:molten_rose_gold",
+    "tag": "tconstruct:molten_rose_gold",
     "amount": 144
   },
-  "result": "tconstruct:rose_gold_ingot",
+  "result": {
+    "tag": "forge:ingots/rose_gold"
+  },
   "cooling_time": 52
 }

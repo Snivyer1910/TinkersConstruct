@@ -13,16 +13,18 @@ import slimeknights.mantle.client.screen.book.element.BookElement;
 import slimeknights.tconstruct.library.book.TinkerPage;
 import slimeknights.tconstruct.library.book.elements.ListingLeftElement;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class ContentListing extends TinkerPage {
 
-  public String title;
-  private final List<TextData> entries = Lists.newArrayList();
+  public String title = null;
+  public String subText = null;
+  private transient final List<TextData> entries = Lists.newArrayList();
 
-  public void addEntry(String text, PageData link) {
+  public void addEntry(String text, @Nullable PageData link) {
     TextData data = new TextData(text);
     if (link != null) {
       data.action = ProtocolGoToPage.GO_TO_RTN + ":" + link.parent.name + "." + link.name;
@@ -39,27 +41,40 @@ public class ContentListing extends TinkerPage {
     int yOff = 0;
     if (this.title != null) {
       this.addTitle(list, this.title, false);
-      yOff = 20;
+      yOff = 16;
+    }
+    if (this.subText != null) {
+      int height = this.addText(list, this.subText, false, 0, yOff);
+      yOff += height;
     }
 
-    int y = yOff;
-    int x = 0;
+    // 16 gives space for the bottom and ensures a round number, yOff ensures the top is not counted
+    int lineHeight = 10;
+    int columnHeight = BookScreen.PAGE_HEIGHT - yOff - 16;
+    if (columnHeight % lineHeight != 0) {
+      columnHeight -= columnHeight % lineHeight;
+    }
+
+    // determine how wide we can make each column, support up to 3
     int w = BookScreen.PAGE_WIDTH;
-    int line_height = 9;
-
-    int bot = BookScreen.PAGE_HEIGHT - 30;
-
-    if (this.entries.size() * line_height + yOff > bot) {
-      w /= 2;
+    int totalHeight = this.entries.size() * lineHeight;
+    if (totalHeight > columnHeight) {
+      if (totalHeight > (columnHeight * 2)) {
+        w /= 3;
+      } else {
+        w /= 2;
+      }
     }
 
+    int x = 0;
+    int y = 0;
     for (TextData data : this.entries) {
-      list.add(this.createListingElement(y, x, w, line_height, data));
-      y += line_height;
-
-      if (y > bot) {
+      int height = this.parent.parent.parent.fontRenderer.getWordWrappedHeight("- " + data.text, w) * lineHeight / 9;
+      list.add(this.createListingElement(y + yOff, x, w, height, data));
+      y += height;
+      if (y >= columnHeight) {
         x += w;
-        y = yOff;
+        y = 0;
       }
     }
   }

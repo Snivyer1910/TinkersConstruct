@@ -39,6 +39,14 @@ public class ModifierNBT {
   private final List<ModifierEntry> modifiers;
 
   /**
+   * Checks if the NBT has no modifiers
+   * @return  True if there are no modifiers
+   */
+  public boolean isEmpty() {
+    return modifiers.isEmpty();
+  }
+
+  /**
    * Gets the level of a modifier
    * @param modifier  Modifier to check
    * @return  Modifier level, or 0 if modifier is missing
@@ -81,6 +89,34 @@ public class ModifierNBT {
     // if no matching modifier, create a new entry
     if (!found) {
       builder.add(new ModifierEntry(modifier, level));
+    }
+    return new ModifierNBT(builder.build());
+  }
+
+  /**
+   * Creates a copy of this NBT without the given modifier
+   * @param modifier  Modifier to remove
+   * @param level     Level to remove
+   * @return  ModifierNBT without the given modifier
+   */
+  public ModifierNBT withoutModifier(Modifier modifier, int level) {
+    if (level <= 0) {
+      throw new IllegalArgumentException("Invalid level, must be above zero");
+    }
+
+    // rather than using the builder, just use a raw list builder
+    // easier for adding a single entry, and the cases that call this method don't care about sorting
+    ImmutableList.Builder<ModifierEntry> builder = ImmutableList.builder();
+    for (ModifierEntry entry : this.modifiers) {
+      if (entry.getModifier() == modifier && level > 0) {
+        if (entry.getLevel() > level) {
+          builder.add(new ModifierEntry(modifier, entry.getLevel() - level));
+        } else {
+          level -= entry.getLevel();
+        }
+      } else {
+        builder.add(entry);
+      }
     }
     return new ModifierNBT(builder.build());
   }

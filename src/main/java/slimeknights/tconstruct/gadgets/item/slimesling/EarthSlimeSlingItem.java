@@ -8,7 +8,7 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
-import slimeknights.tconstruct.library.SlimeBounceHandler;
+import slimeknights.tconstruct.library.utils.SlimeBounceHandler;
 import slimeknights.tconstruct.shared.block.SlimeType;
 
 public class EarthSlimeSlingItem extends BaseSlimeSlingItem {

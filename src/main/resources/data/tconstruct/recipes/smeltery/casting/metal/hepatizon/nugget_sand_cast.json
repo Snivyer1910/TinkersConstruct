@@ -5,9 +5,11 @@
   },
   "cast_consumed": true,
   "fluid": {
-    "name": "tconstruct:molten_hepatizon",
+    "tag": "tconstruct:molten_hepatizon",
     "amount": 16
   },
-  "result": "tconstruct:hepatizon_nugget",
+  "result": {
+    "tag": "forge:nuggets/hepatizon"
+  },
   "cooling_time": 26
 }

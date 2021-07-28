@@ -1,0 +1,36 @@
+{
+  "type": "tconstruct:modifier",
+  "inputs": [
+    {
+      "item": "tconstruct:small_blade",
+      "type": "tconstruct:material"
+    },
+    {
+      "tag": "forge:ingots/netherite_scrap"
+    },
+    {
+      "item": "tconstruct:tool_binding",
+      "type": "tconstruct:material"
+    }
+  ],
+  "tools": {
+    "type": "mantle:without",
+    "base": {
+      "tag": "tconstruct:modifiable/harvest/primary"
+    },
+    "without": [
+      {
+        "item": "tconstruct:kama"
+      },
+      {
+        "item": "tconstruct:scythe"
+      }
+    ]
+  },
+  "result": {
+    "name": "tconstruct:tilling",
+    "level": 1
+  },
+  "max_level": 1,
+  "ability_slots": 1
+}

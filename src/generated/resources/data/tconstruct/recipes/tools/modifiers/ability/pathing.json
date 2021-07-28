@@ -1,0 +1,36 @@
+{
+  "type": "tconstruct:modifier",
+  "inputs": [
+    {
+      "item": "tconstruct:pickaxe_head",
+      "type": "tconstruct:material"
+    },
+    {
+      "tag": "forge:ingots/netherite_scrap"
+    },
+    {
+      "item": "tconstruct:small_axe_head",
+      "type": "tconstruct:material"
+    }
+  ],
+  "tools": {
+    "type": "mantle:without",
+    "base": {
+      "tag": "tconstruct:modifiable/harvest/primary"
+    },
+    "without": [
+      {
+        "item": "tconstruct:mattock"
+      },
+      {
+        "item": "tconstruct:excavator"
+      }
+    ]
+  },
+  "result": {
+    "name": "tconstruct:pathing",
+    "level": 1
+  },
+  "max_level": 1,
+  "ability_slots": 1
+}
