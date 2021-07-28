@@ -5,8 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.fabricmc.fabric.api.util.NbtType;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import org.jetbrains.annotations.Nullable;
 import slimeknights.tconstruct.library.utils.NBTUtil;
 
@@ -47,12 +47,12 @@ public class StatsNBT {
   }
 
   /** Parses the stats from NBT */
-  public static StatsNBT readFromNBT(@Nullable Tag inbt) {
+  public static StatsNBT readFromNBT(@Nullable NbtElement inbt) {
     if (inbt == null || inbt.getType() != NbtType.COMPOUND) {
       return EMPTY;
     }
 
-    CompoundTag nbt = (CompoundTag)inbt;
+    NbtCompound nbt = (NbtCompound)inbt;
     int durability = NBTUtil.getInt(nbt, TAG_DURABILITY, EMPTY.durability);
     int harvestLevel = NBTUtil.getInt(nbt, TAG_HARVEST_LEVEL, EMPTY.harvestLevel);
     float attack = NBTUtil.getFloat(nbt, TAG_ATTACK_DAMAGE, EMPTY.attackDamage);
@@ -63,8 +63,8 @@ public class StatsNBT {
   }
 
   /** Writes these stats to NBT */
-  public CompoundTag serializeToNBT() {
-    CompoundTag nbt = new CompoundTag();
+  public NbtCompound serializeToNBT() {
+    NbtCompound nbt = new NbtCompound();
     nbt.putInt(TAG_DURABILITY, durability);
     nbt.putInt(TAG_HARVEST_LEVEL, harvestLevel);
     nbt.putFloat(TAG_ATTACK_DAMAGE, attackDamage);

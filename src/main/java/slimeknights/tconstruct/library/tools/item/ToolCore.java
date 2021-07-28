@@ -18,7 +18,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.tag.Tag;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -296,7 +296,7 @@ public abstract class ToolCore extends Item implements ITinkerStationDisplay, IM
 
 //  @Override
   public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-    CompoundTag nbt = stack.getTag();
+    NbtCompound nbt = stack.getTag();
     if (nbt == null || nbt.getBoolean(ToolBuildHandler.KEY_DISPLAY_TOOL)) {
       return ImmutableMultimap.of();
     }
@@ -379,7 +379,7 @@ public abstract class ToolCore extends Item implements ITinkerStationDisplay, IM
   @Override
   @Environment(EnvType.CLIENT)
   public void appendTooltip(ItemStack stack, @Nullable World worldIn, List<Text> tooltip, TooltipContext flagIn) {
-    CompoundTag tag = stack.getTag();
+    NbtCompound tag = stack.getTag();
     // if the display tag is set, hide material info
     if (tag != null && tag.getBoolean(ToolBuildHandler.KEY_DISPLAY_TOOL)) {
       ToolStack tool = ToolStack.from(stack);
@@ -649,7 +649,7 @@ public abstract class ToolCore extends Item implements ITinkerStationDisplay, IM
   /* NBT loading */
 
   @Override
-  public boolean postProcessTag(CompoundTag nbt) {
+  public boolean postProcessNbt(NbtCompound nbt) {
     // when the itemstack is loaded from NBT we recalculate all the data
     // stops things from being wrong if modifiers or materials change
     ToolStack tool = ToolStack.from(this, getToolDefinition(), nbt.getCompound("tag"));

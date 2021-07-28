@@ -5,20 +5,19 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lombok.extern.log4j.Log4j2;
-import net.minecraft.resource.JsonDataLoader;
-import net.minecraft.resource.ResourceManager;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.profiler.Profiler;
-
 import org.apache.logging.log4j.LogManager;
 import slimeknights.tconstruct.tables.client.inventory.library.slots.SlotInformation;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import net.minecraft.resource.JsonDataLoader;
+import net.minecraft.resource.ResourceManager;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.profiler.Profiler;
 
 @Log4j2
 public class SlotInformationLoader extends JsonDataLoader {
@@ -44,7 +43,7 @@ public class SlotInformationLoader extends JsonDataLoader {
 
   @Override
   protected void apply(Map<Identifier, JsonElement> map, ResourceManager resourceManager, Profiler profiler) {
-    LogManager.getLogger().info("APPLYING");
+    LogManager.getLogger().info("APPLYING JSONREEE");
     this.slotInformationMap.clear();
     this.slotInformationList.clear();
 

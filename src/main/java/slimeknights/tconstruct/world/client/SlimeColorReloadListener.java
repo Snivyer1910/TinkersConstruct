@@ -2,7 +2,7 @@ package slimeknights.tconstruct.world.client;
 
 import net.minecraft.client.util.RawTextureDataLoader;
 import net.minecraft.resource.ResourceManager;
-import net.minecraft.resource.SinglePreparationResourceReloadListener;
+import net.minecraft.resource.SinglePreparationResourceReloader;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
 import slimeknights.tconstruct.TConstruct;
@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Color reload listener for all slime foliage types
  */
-public class SlimeColorReloadListener extends SinglePreparationResourceReloadListener<int[]> {
+public class SlimeColorReloadListener extends SinglePreparationResourceReloader<int[]> {
   private final FoliageType color;
   private final Identifier path;
   public SlimeColorReloadListener(FoliageType color) {

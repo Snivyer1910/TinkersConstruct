@@ -60,7 +60,7 @@ public class ToolHarvestLogic {
    * @return  True if effective
    */
   public boolean isEffectiveAgainst(ToolStack tool, ItemStack stack, BlockState state) {
-    return stack.isEffectiveOn(state) || (!state.isToolRequired() && stack.getMiningSpeedMultiplier(state) > 1.0F);
+    return stack.isSuitableFor(state) || (!state.isToolRequired() && stack.getMiningSpeedMultiplier(state) > 1.0F);
   }
 
   /**

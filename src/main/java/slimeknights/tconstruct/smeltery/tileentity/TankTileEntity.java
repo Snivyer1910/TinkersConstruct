@@ -10,7 +10,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import slimeknights.mantle.model.IModelData;
 import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.library.client.model.ModelProperties;
@@ -118,7 +118,7 @@ public class TankTileEntity extends SmelteryComponentTileEntity implements ITank
    */
 
   @Override
-  public void fromTag(BlockState state, CompoundTag tag) {
+  public void fromTag(BlockState state, NbtCompound tag) {
     updateTank(tag.getCompound(Tags.TANK));
     super.fromTag(state, tag);
   }
@@ -127,7 +127,7 @@ public class TankTileEntity extends SmelteryComponentTileEntity implements ITank
    * Updates the tank from an NBT tag, used in the block
    * @param nbt  tank NBT
    */
-  public void updateTank(CompoundTag nbt) {
+  public void updateTank(NbtCompound nbt) {
     if (nbt.isEmpty()) {
       tank.setFluid(TinkerFluids.EMPTY);
     } else {
@@ -136,10 +136,10 @@ public class TankTileEntity extends SmelteryComponentTileEntity implements ITank
   }
 
   @Override
-  public void writeSynced(CompoundTag tag) {
+  public void writeSynced(NbtCompound tag) {
     // want tank on the client on world load
     if (!tank.isEmpty()) {
-      tag.put(Tags.TANK, tank.writeToNBT(new CompoundTag()));
+      tag.put(Tags.TANK, tank.writeToNBT(new NbtCompound()));
     }
   }
 

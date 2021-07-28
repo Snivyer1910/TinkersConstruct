@@ -80,7 +80,7 @@ public class EntityMeltingRecipe implements ICustomOutputRecipe<IEmptyInventory>
   }
 
   @Override
-  public net.minecraft.recipe.RecipeSerializer<?> getSerializer() {
+  public RecipeSerializer<?> getSerializer() {
     return TinkerSmeltery.entityMeltingSerializer;
   }
 

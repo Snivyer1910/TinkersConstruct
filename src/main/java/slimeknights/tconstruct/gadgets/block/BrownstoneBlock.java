@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 public class BrownstoneBlock extends Block {
 
   public BrownstoneBlock() {
-    super(AbstractBlock.Settings.of(Material.STONE).strength(3.0F, 20.0F).sounds(BlockSoundGroup.STONE));
+    super(Settings.of(Material.STONE).strength(3.0F, 20.0F).sounds(BlockSoundGroup.STONE));
   }
 
   @Override

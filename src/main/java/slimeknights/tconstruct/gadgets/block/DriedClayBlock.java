@@ -8,7 +8,7 @@ import net.minecraft.sound.BlockSoundGroup;
 public class DriedClayBlock extends Block {
 
   public DriedClayBlock() {
-    super(AbstractBlock.Settings.of(Material.STONE).strength(1.5F, 20.0F).sounds(BlockSoundGroup.STONE));
+    super(Settings.of(Material.STONE).strength(1.5F, 20.0F).sounds(BlockSoundGroup.STONE));
   }
 
 }

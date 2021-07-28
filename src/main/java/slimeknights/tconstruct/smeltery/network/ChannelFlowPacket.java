@@ -12,18 +12,20 @@ import slimeknights.mantle.util.TileEntityHelper;
 import slimeknights.tconstruct.smeltery.tileentity.ChannelTileEntity;
 
 /** Packet for when the flowing state changes on a channel side */
-public class ChannelFlowPacket implements IThreadsafePacket {
+public class ChannelFlowPacket extends IThreadsafePacket {
 	private final BlockPos pos;
 	private final Direction side;
 	private final boolean flow;
 	public ChannelFlowPacket(BlockPos pos, Direction side, boolean flow) {
-		this.pos = pos;
+    super(null);
+    this.pos = pos;
 		this.side = side;
 		this.flow = flow;
 	}
 
 	public ChannelFlowPacket(PacketByteBuf buffer) {
-		pos = buffer.readBlockPos();
+    super(buffer);
+    pos = buffer.readBlockPos();
 		side = buffer.readEnumConstant(Direction.class);
 		flow = buffer.readBoolean();
 	}
@@ -36,7 +38,7 @@ public class ChannelFlowPacket implements IThreadsafePacket {
 	}
 
 	@Override
-	public void handleThreadsafe(PlayerEntity player, PacketSender context) {
+	public void handleThreadsafe(PlayerEntity player) {
 		HandleClient.handle(this);
 	}
 

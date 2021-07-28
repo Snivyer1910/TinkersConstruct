@@ -9,7 +9,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -53,9 +53,9 @@ public class TinkerChestBlock extends TinkerTableBlock implements BlockEntityPro
     super.onPlaced(worldIn, pos, state, placer, stack);
     // check if we also have an inventory
 
-    CompoundTag tag = stack.getTag();
+    NbtCompound tag = stack.getTag();
     if (tag != null && tag.contains("TinkerData", NbtType.COMPOUND)) {
-      CompoundTag tinkerData = tag.getCompound("TinkerData");
+      NbtCompound tinkerData = tag.getCompound("TinkerData");
       BlockEntity te = worldIn.getBlockEntity(pos);
       if (te instanceof TinkerChestTileEntity) {
         ((TinkerChestTileEntity)te).readInventoryFromNBT(tinkerData);

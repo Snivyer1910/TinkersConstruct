@@ -16,15 +16,17 @@ import slimeknights.tconstruct.tables.tileentity.table.CraftingStationTileEntity
 /**
  * Packet to send the current crafting recipe to a player who opens the crafting station
  */
-public class UpdateCraftingRecipePacket implements IThreadsafePacket {
+public class UpdateCraftingRecipePacket extends IThreadsafePacket {
   private final BlockPos pos;
   private final Identifier recipe;
   public UpdateCraftingRecipePacket(BlockPos pos, CraftingRecipe recipe) {
+    super(null);
     this.pos = pos;
     this.recipe = recipe.getId();
   }
 
   public UpdateCraftingRecipePacket(PacketByteBuf buffer) {
+    super(null);
     this.pos = buffer.readBlockPos();
     this.recipe = buffer.readIdentifier();
   }
@@ -36,7 +38,7 @@ public class UpdateCraftingRecipePacket implements IThreadsafePacket {
   }
 
   @Override
-  public void handleThreadsafe(PlayerEntity player, PacketSender context) {
+  public void handleThreadsafe(PlayerEntity player) {
     HandleClient.handle(this);
   }
 

@@ -4,8 +4,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.Identifier;
 import java.util.function.BiFunction;
 
@@ -23,7 +23,7 @@ public class ModDataNBT implements IModDataReadOnly {
 
   /** Compound representing modifier data */
   @Getter(AccessLevel.PROTECTED)
-  private final CompoundTag data;
+  private final NbtCompound data;
 
   /** Upgrades remaining in this data */
   @Getter
@@ -39,7 +39,7 @@ public class ModDataNBT implements IModDataReadOnly {
    * Creates a new mod data containing empty data
    */
   public ModDataNBT() {
-    this(new CompoundTag(), 0, 0, 0);
+    this(new NbtCompound(), 0, 0, 0);
   }
 
   /** Updates the upgrade slots */
@@ -82,7 +82,7 @@ public class ModDataNBT implements IModDataReadOnly {
   }
 
   @Override
-  public <T> T get(Identifier name, BiFunction<CompoundTag,String,T> function) {
+  public <T> T get(Identifier name, BiFunction<NbtCompound,String,T> function) {
     return function.apply(data, name.toString());
   }
 
@@ -96,7 +96,7 @@ public class ModDataNBT implements IModDataReadOnly {
    * @param name  Key name
    * @param nbt   NBT value
    */
-  public void put(Identifier name, Tag nbt) {
+  public void put(Identifier name, NbtElement nbt) {
     data.put(name.toString(), nbt);
   }
 
@@ -141,7 +141,7 @@ public class ModDataNBT implements IModDataReadOnly {
    * @param data  data
    * @return  Parsed mod data
    */
-  public static ModDataNBT readFromNBT(CompoundTag data) {
+  public static ModDataNBT readFromNBT(NbtCompound data) {
     int upgrades = data.getInt(TAG_UPGRADES);
     int abilities = data.getInt(TAG_ABILITIES);
     int traits = data.getInt(TAG_TRAITS);

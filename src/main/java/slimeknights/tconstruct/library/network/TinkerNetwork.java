@@ -76,7 +76,7 @@ public class TinkerNetwork extends NetworkWrapper {
     instance.registerPacket(SmelteryFluidClickedPacket.class, SmelteryFluidClickedPacket::new, NetworkSide.SERVERBOUND);
   }
 
-  public void sendVanillaPacket(Entity player, Packet<?> packet) {
+  public void sendVanillaPacket(Entity player, net.minecraft.network.Packet packet) {
     if (player instanceof ServerPlayerEntity && ((ServerPlayerEntity) player).networkHandler != null) {
       ((ServerPlayerEntity) player).networkHandler.sendPacket(packet);
     }

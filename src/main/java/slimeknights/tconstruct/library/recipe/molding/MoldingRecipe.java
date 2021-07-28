@@ -36,7 +36,7 @@ public abstract class MoldingRecipe implements ICommonRecipe<IMoldingInventory> 
   }
 
   @Override
-  public DefaultedList<Ingredient> getPreviewInputs() {
+  public DefaultedList<Ingredient> getIngredients() {
     return DefaultedList.copyOf(Ingredient.EMPTY, material, pattern);
   }
 
@@ -52,7 +52,7 @@ public abstract class MoldingRecipe implements ICommonRecipe<IMoldingInventory> 
     }
 
     @Override
-    public net.minecraft.recipe.RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
       return TinkerSmeltery.moldingTableSerializer;
     }
 
@@ -69,7 +69,7 @@ public abstract class MoldingRecipe implements ICommonRecipe<IMoldingInventory> 
     }
 
     @Override
-    public net.minecraft.recipe.RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
       return TinkerSmeltery.moldingBasinSerializer;
     }
 

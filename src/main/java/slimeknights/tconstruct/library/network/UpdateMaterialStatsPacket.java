@@ -1,11 +1,6 @@
 package slimeknights.tconstruct.library.network;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketByteBuf;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import org.apache.logging.log4j.Logger;
 import slimeknights.mantle.network.packet.IThreadsafePacket;
 import slimeknights.tconstruct.library.MaterialRegistry;
@@ -13,7 +8,6 @@ import slimeknights.tconstruct.library.Util;
 import slimeknights.tconstruct.library.materials.MaterialId;
 import slimeknights.tconstruct.library.materials.stats.IMaterialStats;
 import slimeknights.tconstruct.library.materials.stats.MaterialStatsId;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -22,9 +16,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.PacketByteBuf;
+
 @Getter
-@AllArgsConstructor
-public class UpdateMaterialStatsPacket implements IThreadsafePacket {
+public class UpdateMaterialStatsPacket extends IThreadsafePacket {
   private static final Logger log = Util.getLogger("NetworkSync");
 
   protected final Map<MaterialId, Collection<IMaterialStats>> materialToStats;
@@ -34,6 +30,7 @@ public class UpdateMaterialStatsPacket implements IThreadsafePacket {
   }
 
   public UpdateMaterialStatsPacket(PacketByteBuf buffer, Function<MaterialStatsId, Class<?>> classResolver) {
+    super(null);
     int materialCount = buffer.readInt();
     materialToStats = new HashMap<>(materialCount);
     for (int i = 0; i < materialCount; i++) {
@@ -87,7 +84,7 @@ public class UpdateMaterialStatsPacket implements IThreadsafePacket {
   }
 
   @Override
-  public void handleThreadsafe(PlayerEntity player, PacketSender context) {
+  public void handleThreadsafe(PlayerEntity playert) {
     MaterialRegistry.updateMaterialStatsFromServer(this);
   }
 }

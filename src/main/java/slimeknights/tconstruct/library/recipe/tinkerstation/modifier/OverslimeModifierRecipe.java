@@ -3,7 +3,7 @@ package slimeknights.tconstruct.library.recipe.tinkerstation.modifier;
 import com.google.gson.JsonObject;
 import lombok.Getter;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
@@ -117,7 +117,7 @@ public class OverslimeModifierRecipe implements ITinkerStationRecipe, IDisplayMo
   }
 
   @Override
-  public net.minecraft.recipe.RecipeSerializer<?> getSerializer() {
+  public RecipeSerializer<?> getSerializer() {
     return TinkerModifiers.overslimeSerializer;
   }
 
@@ -133,16 +133,16 @@ public class OverslimeModifierRecipe implements ITinkerStationRecipe, IDisplayMo
   public List<List<ItemStack>> getDisplayItems() {
     if (displayItems == null) {
       // set cap and amount based on the restore amount for output
-      CompoundTag volatileNBT = new CompoundTag();
+      NbtCompound volatileNBT = new NbtCompound();
       ModDataNBT volatileData = ModDataNBT.readFromNBT(volatileNBT);
       OverslimeModifier.setCap(volatileData, 500);
-      CompoundTag persistentNBT = new CompoundTag();
+      NbtCompound persistentNBT = new NbtCompound();
       OverslimeModifier.setOverslime(ToolDefinition.EMPTY, ModDataNBT.readFromNBT(persistentNBT), volatileData, restoreAmount);
       List<ItemStack> displayOutputs = IDisplayModifierRecipe.getAllModifiable()
                                                              .map(MAP_TOOL_FOR_RENDERING)
                                                              .map(stack -> {
                                                                ItemStack result = IDisplayModifierRecipe.withModifiers(stack, null, RESULT.get());
-                                                               CompoundTag nbt = result.getOrCreateTag();
+                                                               NbtCompound nbt = result.getOrCreateTag();
                                                                nbt.put(ToolStack.TAG_VOLATILE_MOD_DATA, volatileNBT);
                                                                nbt.put(ToolStack.TAG_PERSISTENT_MOD_DATA, persistentNBT);
                                                                return result;

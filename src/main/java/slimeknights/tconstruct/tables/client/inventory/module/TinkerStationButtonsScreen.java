@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.tables.client.inventory.module;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
@@ -41,7 +41,7 @@ public class TinkerStationButtonsScreen extends SideButtonsScreen {
     this.buttonCount = 0;
 
     ButtonWidget.PressAction onPressed = button -> {
-      for (AbstractButtonWidget widget : TinkerStationButtonsScreen.this.buttons) {
+      for (ClickableWidget widget : TinkerStationButtonsScreen.this.buttons) {
         if (widget instanceof SlotButtonItem) {
           ((SlotButtonItem) widget).pressed = false;
         }
@@ -95,7 +95,7 @@ public class TinkerStationButtonsScreen extends SideButtonsScreen {
   }
 
   public void shiftStyle(int style) {
-    for (AbstractButtonWidget widget : this.buttons) {
+    for (ClickableWidget widget : this.buttons) {
       if (widget instanceof SlotButtonItem) {
         this.shiftButton((SlotButtonItem) widget, 0, -18);
       }
@@ -111,7 +111,7 @@ public class TinkerStationButtonsScreen extends SideButtonsScreen {
       Icons.ICONS);
   }
 
-  public List<AbstractButtonWidget> getButtons() {
+  public List<ClickableWidget> getButtons() {
     return this.buttons;
   }
 }

@@ -6,9 +6,9 @@ import lombok.Getter;
 import lombok.ToString;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.util.NbtType;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.NbtString;
 import slimeknights.tconstruct.library.MaterialRegistry;
 import slimeknights.tconstruct.library.materials.IMaterial;
 import slimeknights.tconstruct.library.materials.MaterialId;
@@ -88,17 +88,17 @@ public class MaterialNBT {
    * @param nbt  NBT instance
    * @return  MaterialNBT instance
    */
-  public static MaterialNBT readFromNBT(@Nullable Tag nbt) {
+  public static MaterialNBT readFromNBT(@Nullable NbtElement nbt) {
     if (nbt == null) {// || nbt.getType() != BlockEntityRendererRegistry.INSTANCE.registerST) {
       return EMPTY;
     }
-    ListTag listNBT = (ListTag) nbt;
-    if (listNBT.getElementType() != NbtType.STRING) {
+    NbtList listNBT = (NbtList) nbt;
+    if (listNBT.getHeldType() != NbtType.STRING) {
       return EMPTY;
     }
 
     List<IMaterial> materials = listNBT.stream()
-      .map(Tag::asString)
+      .map(NbtElement::asString)
       .map(MaterialId::tryParse)
       .filter(Objects::nonNull)
       .map(MaterialRegistry::getMaterial)
@@ -111,11 +111,11 @@ public class MaterialNBT {
    * Writes this material list to NBT
    * @return  List of materials
    */
-  public ListTag serializeToNBT() {
+  public NbtList serializeToNBT() {
     return materials.stream()
       .map(IMaterial::getIdentifier)
       .map(MaterialId::toString)
-      .map(StringTag::of)
-      .collect(Collectors.toCollection(ListTag::new));
+      .map(NbtString::of)
+      .collect(Collectors.toCollection(NbtList::new));
   }
 }

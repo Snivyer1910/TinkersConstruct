@@ -20,13 +20,13 @@ import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.BakedModelManager;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.FilledMapItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3f;
 
 // TODO: needs so much cleanup
 public class FancyItemFrameRenderer extends EntityRenderer<FancyItemFrameEntity> {
@@ -63,8 +63,8 @@ public class FancyItemFrameRenderer extends EntityRenderer<FancyItemFrameEntity>
     matrixStackIn.translate(-vec3d.getX(), -vec3d.getY(), -vec3d.getZ());
     Direction direction = entityIn.getHorizontalFacing();
     matrixStackIn.translate((double) direction.getOffsetX() * 0.46875D, (double) direction.getOffsetY() * 0.46875D, (double) direction.getOffsetZ() * 0.46875D);
-    matrixStackIn.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(entityIn.pitch));
-    matrixStackIn.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(180.0F - entityIn.yaw));
+    matrixStackIn.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entityIn.pitch));
+    matrixStackIn.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F - entityIn.yaw));
 
     // render the frame
     FrameType frameType = entityIn.getFrameType();

@@ -2,7 +2,7 @@ package slimeknights.tconstruct.smeltery.tileentity.module;
 
 import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -216,10 +216,10 @@ public class MeltingModule implements IMeltingInventory, PropertyDelegate {
    * Writes this module to NBT
    * @return  Module in NBT
    */
-  public CompoundTag writeToNBT() {
-    CompoundTag nbt = new CompoundTag();
+  public NbtCompound writeToNBT() {
+    NbtCompound nbt = new NbtCompound();
     if (!stack.isEmpty()) {
-      stack.toTag(nbt);
+      stack.writeNbt(nbt);
       nbt.putInt(TAG_CURRENT_TIME, currentTime);
       nbt.putInt(TAG_REQUIRED_TIME, requiredTime);
       nbt.putInt(TAG_REQUIRED_TEMP, requiredTemp);
@@ -231,8 +231,8 @@ public class MeltingModule implements IMeltingInventory, PropertyDelegate {
    * Reads this module from NBT
    * @param nbt  NBT
    */
-  public void readFromNBT(CompoundTag nbt) {
-    stack = ItemStack.fromTag(nbt);
+  public void readFromNBT(NbtCompound nbt) {
+    stack = ItemStack.fromNbt(nbt);
     if (!stack.isEmpty()) {
       currentTime = nbt.getInt(TAG_CURRENT_TIME);
       requiredTime = nbt.getInt(TAG_REQUIRED_TIME);

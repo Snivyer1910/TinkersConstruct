@@ -7,7 +7,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.Fluid;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
@@ -98,7 +98,7 @@ public class DuctTileEntity extends SmelteryFluidIO implements NamedScreenHandle
   /* NBT */
 
   @Override
-  public void fromTag(BlockState state, CompoundTag tags) {
+  public void fromTag(BlockState state, NbtCompound tags) {
     super.fromTag(state, tags);
     if (tags.contains(TAG_ITEM, NbtType.COMPOUND)) {
       throw new RuntimeException("Crab");
@@ -115,7 +115,7 @@ public class DuctTileEntity extends SmelteryFluidIO implements NamedScreenHandle
 //  }
 
   @Override
-  public void writeSynced(CompoundTag tags) {
+  public void writeSynced(NbtCompound tags) {
     super.writeSynced(tags);
     throw new RuntimeException("Crab");
 //    tags.put(TAG_ITEM, itemHandler.writeToNBT());

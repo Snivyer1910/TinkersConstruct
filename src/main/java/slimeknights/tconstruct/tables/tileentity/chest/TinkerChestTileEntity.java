@@ -5,7 +5,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -48,7 +48,7 @@ public abstract class TinkerChestTileEntity extends TableTileEntity implements E
   }
 
   @Override
-  public void readInventoryFromNBT(CompoundTag tag) {
+  public void readInventoryFromNBT(NbtCompound tag) {
     // we need to set it to max because the loading code uses getSizeInventory and we want to load all stacks
     this.actualSize = getMaxInventory();
     super.readInventoryFromNBT(tag);

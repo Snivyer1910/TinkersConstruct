@@ -21,15 +21,15 @@ import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.client.util.math.AffineTransformation;
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.AffineTransformation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec2f;
+import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.BlockRenderView;
 import org.jetbrains.annotations.Nullable;
 import slimeknights.mantle.client.model.JsonModelResourceProvider;
@@ -143,7 +143,7 @@ public class ToolModel implements TinkerModelGeometry {
   @Nullable
   @Override
   public BakedModel bake(ModelLoader loader, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer, Identifier modelId) {
-    AffineTransformation largeTransforms = isLarge ? new AffineTransformation(new Vector3f((offset.x - 8) / 32, (-offset.y - 8) / 32, 0), null, new Vector3f(2, 2, 1), null) : null;
+    AffineTransformation largeTransforms = isLarge ? new AffineTransformation(new Vec3f((offset.x - 8) / 32, (-offset.y - 8) / 32, 0), null, new Vec3f(2, 2, 1), null) : null;
     overrides = new MaterialOverrideHandler(owner, toolParts, largeTransforms); // TODO: nest original overrides?
     return bakeInternal(owner, textureGetter, largeTransforms, toolParts, Collections.emptyList(), false, overrides);
   }

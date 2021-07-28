@@ -131,13 +131,13 @@ public class MaterialManager extends JsonDataLoader {
     log.info("{} materials loaded", materials.size());
   }
 
-  /**
-   * Gets the packet to send on player login
-   * @return  Packet object
-   */
-  public Object getUpdatePacket() {
-    return new UpdateMaterialsPacket(materials.values());
-  }
+//  /**
+//   * Gets the packet to send on player login
+//   * @return  Packet object
+//   */
+//  public Object getUpdatePacket() {
+//    return new UpdateMaterialsPacket(materials.values());
+//  }
 
   /** Gets an int value or a default */
   private static int orDefault(@Nullable Integer integer, int def) {

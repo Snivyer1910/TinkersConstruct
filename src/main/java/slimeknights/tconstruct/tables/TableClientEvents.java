@@ -3,6 +3,8 @@ package slimeknights.tconstruct.tables;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.resource.ReloadableResourceManager;
+
+import org.apache.logging.log4j.LogManager;
 import slimeknights.tconstruct.common.ClientEventBase;
 import slimeknights.tconstruct.tables.client.PatternGuiTextureLoader;
 import slimeknights.tconstruct.tables.client.SlotInformationLoader;
@@ -19,8 +21,8 @@ public class TableClientEvents extends ClientEventBase {
    * Called by TinkerClient to add the resource listeners, runs during constructor
    */
   public static void addResourceListener(ReloadableResourceManager manager) {
-    manager.registerListener(PatternGuiTextureLoader.INSTANCE);
-    manager.registerListener(SlotInformationLoader.INSTANCE);
+    manager.registerReloader(PatternGuiTextureLoader.INSTANCE);
+    manager.registerReloader(SlotInformationLoader.INSTANCE);
   }
 
 //  this looks like baked models might be needed here

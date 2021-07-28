@@ -27,7 +27,7 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.screen.ScreenHandler;
@@ -394,9 +394,9 @@ public abstract class CastingTileEntity extends TableTileEntity implements Ticka
 
   @Override
   @NotNull
-  public CompoundTag toTag(CompoundTag tags) {
-    tags = super.toTag(tags);
-    tags.put(TAG_TANK, tank.writeToNBT(new CompoundTag()));
+  public NbtCompound writeNbt(NbtCompound tags) {
+    tags = super.writeNbt(tags);
+    tags.put(TAG_TANK, tank.writeToNBT(new NbtCompound()));
     tags.putInt(TAG_TIMER, timer);
     if (currentRecipe != null) {
       tags.putString(TAG_RECIPE, currentRecipe.getId().toString());
@@ -407,7 +407,7 @@ public abstract class CastingTileEntity extends TableTileEntity implements Ticka
   }
 
   @Override
-  public void fromTag(BlockState state, CompoundTag tags) {
+  public void fromTag(BlockState state, NbtCompound tags) {
     super.fromTag(state, tags);
     tank.readFromNBT(tags.getCompound(TAG_TANK));
     timer = tags.getInt(TAG_TIMER);

@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -66,7 +66,7 @@ public class MultiblockSmeltery extends MultiblockCuboid<StructureData> {
    */
   @Override
   @Nullable
-  public StructureData readFromNBT(CompoundTag nbt) {
+  public StructureData readFromNBT(NbtCompound nbt) {
     // add all tanks from NBT, will be picked up in the create call
     tanks.clear();
     tanks.addAll(readPosList(nbt, TAG_TANKS));
@@ -224,8 +224,8 @@ public class MultiblockSmeltery extends MultiblockCuboid<StructureData> {
     }
 
     @Override
-    public CompoundTag writeClientNBT() {
-      CompoundTag nbt = super.writeClientNBT();
+    public NbtCompound writeClientNBT() {
+      NbtCompound nbt = super.writeClientNBT();
       nbt.put(TAG_TANKS, writePosList(tanks));
       return nbt;
     }
@@ -235,8 +235,8 @@ public class MultiblockSmeltery extends MultiblockCuboid<StructureData> {
      * @return  structure as NBT
      */
     @Override
-    public CompoundTag writeToNBT() {
-      CompoundTag nbt = super.writeToNBT();
+    public NbtCompound writeToNBT() {
+      NbtCompound nbt = super.writeToNBT();
       if (insideCheck != null) {
         nbt.put(TAG_INSIDE_CHECK, TagUtil.writePos(insideCheck));
       }

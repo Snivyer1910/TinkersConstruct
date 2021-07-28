@@ -14,11 +14,11 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Matrix4f;
+import net.minecraft.util.math.Vec3f;
 import slimeknights.mantle.client.render.FluidRenderer;
 import slimeknights.tconstruct.library.Util;
 import slimeknights.tconstruct.smeltery.client.inventory.module.GuiSmelteryTank;
@@ -146,8 +146,8 @@ public class SmelteryTankRenderer {
 
     // render each side
     Matrix4f matrix = matrices.peek().getModel();
-    Vector3f from = new Vector3f();
-    Vector3f to = new Vector3f();
+    Vec3f from = new Vec3f();
+    Vec3f to = new Vec3f();
     int rotation = upsideDown ? 180 : 0;
     for(int y = 0; y <= yd; y++) {
       for(int z = 0; z <= zd; z++) {

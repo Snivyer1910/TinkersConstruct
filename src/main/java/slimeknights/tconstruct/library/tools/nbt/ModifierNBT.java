@@ -7,9 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import net.fabricmc.fabric.api.util.NbtType;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
 import org.jetbrains.annotations.Nullable;
 import slimeknights.tconstruct.library.TinkerRegistries;
 import slimeknights.tconstruct.library.modifiers.Modifier;
@@ -86,19 +86,19 @@ public class ModifierNBT {
   }
 
   /** Re-adds the modifier list from NBT */
-  public static ModifierNBT readFromNBT(@Nullable Tag inbt) {
+  public static ModifierNBT readFromNBT(@Nullable NbtElement inbt) {
     if (inbt == null || inbt.getType() != NbtType.LIST) {
       return EMPTY;
     }
 
-    ListTag listNBT = (ListTag)inbt;
-    if (listNBT.getElementType() != NbtType.COMPOUND) {
+    NbtList listNBT = (NbtList)inbt;
+    if (listNBT.getHeldType() != NbtType.COMPOUND) {
       return EMPTY;
     }
 
     ImmutableList.Builder<ModifierEntry> builder = ImmutableList.builder();
     for (int i = 0; i < listNBT.size(); i++) {
-      CompoundTag tag = listNBT.getCompound(i);
+      NbtCompound tag = listNBT.getCompound(i);
       if (tag.contains(TAG_MODIFIER) && tag.contains(TAG_LEVEL)) {
         ModifierId id = ModifierId.tryParse(tag.getString(TAG_MODIFIER));
         int level = tag.getInt(TAG_LEVEL);
@@ -114,10 +114,10 @@ public class ModifierNBT {
   }
 
   /** Writes these modifiers to NBT */
-  public ListTag serializeToNBT() {
-    ListTag list = new ListTag();
+  public NbtList serializeToNBT() {
+    NbtList list = new NbtList();
     for (ModifierEntry entry : modifiers) {
-      CompoundTag tag = new CompoundTag();
+      NbtCompound tag = new NbtCompound();
       tag.putString(TAG_MODIFIER, entry.getModifier().getId().toString());
       tag.putShort(TAG_LEVEL, (short)entry.getLevel());
       list.add(tag);

@@ -6,8 +6,8 @@ import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.screen.PropertyDelegate;
 import slimeknights.mantle.tileentity.MantleTileEntity;
 import slimeknights.tconstruct.fluids.IFluidHandler;
@@ -303,12 +303,12 @@ public class MeltingModuleInventory implements IItemHandler, Inventory {//IItemH
    * Writes this module to NBT
    * @return  Module in NBT
    */
-  public CompoundTag writeToNBT() {
-    CompoundTag nbt = new CompoundTag();
-    ListTag list = new ListTag();
+  public NbtCompound writeToNBT() {
+    NbtCompound nbt = new NbtCompound();
+    NbtList list = new NbtList();
     for (int i = 0; i < modules.length; i++) {
       if (modules[i] != null && !modules[i].getStack().isEmpty()) {
-        CompoundTag moduleNBT = modules[i].writeToNBT();
+        NbtCompound moduleNBT = modules[i].writeToNBT();
         moduleNBT.putByte(TAG_SLOT, (byte)i);
         list.add(moduleNBT);
       }
@@ -324,14 +324,14 @@ public class MeltingModuleInventory implements IItemHandler, Inventory {//IItemH
    * Reads this inventory from NBT
    * @param nbt  NBT compound
    */
-  public void readFromNBT(CompoundTag nbt) {
+  public void readFromNBT(NbtCompound nbt) {
     if (!strictSize) {
       // no need to resize, as we ignore old data
       modules = new MeltingModule[nbt.getByte(TAG_SIZE) & 255];
     }
-    ListTag list = nbt.getList(TAG_ITEMS, NbtType.COMPOUND);
+    NbtList list = nbt.getList(TAG_ITEMS, NbtType.COMPOUND);
     for (int i = 0; i < list.size(); i++) {
-      CompoundTag item = list.getCompound(i);
+      NbtCompound item = list.getCompound(i);
       if (item.contains(TAG_SLOT, NbtType.BYTE)) {
         int slot = item.getByte(TAG_SLOT) & 255;
         if (validSlot(slot)) {

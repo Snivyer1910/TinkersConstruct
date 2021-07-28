@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.library.client;
 
 import net.minecraft.resource.ResourceManager;
-import net.minecraft.resource.ResourceReloadListener;
+import net.minecraft.resource.ResourceReloader;
 import net.minecraft.util.profiler.Profiler;
 
 import java.util.concurrent.CompletableFuture;
@@ -10,7 +10,7 @@ import java.util.concurrent.Executor;
 /**
  * Same as {@link ISafeManagerReloadListener}, but reloads earlier. Needed to work with some parts of models
  */
-public interface IEarlySafeManagerReloadListener extends ResourceReloadListener {
+public interface IEarlySafeManagerReloadListener extends ResourceReloader {
   @Override
   default CompletableFuture<Void> reload(Synchronizer stage, ResourceManager resourceManager, Profiler preparationsProfiler, Profiler reloadProfiler, Executor backgroundExecutor, Executor gameExecutor) {
     return CompletableFuture.runAsync(() -> {

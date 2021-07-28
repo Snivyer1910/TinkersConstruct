@@ -2,7 +2,7 @@ package slimeknights.tconstruct.misc;
 
 import lombok.Getter;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import slimeknights.mantle.tileentity.MantleTileEntity;
 
 public abstract class SingleItemHandler<T extends MantleTileEntity> implements IItemHandlerModifiable {
@@ -125,10 +125,10 @@ public abstract class SingleItemHandler<T extends MantleTileEntity> implements I
    * Writes this module to NBT
    * @return  Module in NBT
    */
-  public CompoundTag writeToNBT() {
-    CompoundTag nbt = new CompoundTag();
+  public NbtCompound writeToNBT() {
+    NbtCompound nbt = new NbtCompound();
     if (!stack.isEmpty()) {
-      stack.toTag(nbt);
+      stack.writeNbt(nbt);
     }
     return nbt;
   }
@@ -137,7 +137,7 @@ public abstract class SingleItemHandler<T extends MantleTileEntity> implements I
    * Reads this module from NBT
    * @param nbt  NBT
    */
-  public void readFromNBT(CompoundTag nbt) {
-    stack = ItemStack.fromTag(nbt);
+  public void readFromNBT(NbtCompound nbt) {
+    stack = ItemStack.fromNbt(nbt);
   }
 }

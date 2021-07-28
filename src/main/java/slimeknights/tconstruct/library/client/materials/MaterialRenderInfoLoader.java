@@ -48,7 +48,7 @@ public class MaterialRenderInfoLoader implements IEarlySafeManagerReloadListener
    * Called on mod construct to register the resource listener
    */
   public static void addResourceListener(ReloadableResourceManager manager)  {
-    manager.registerListener(INSTANCE);
+    manager.registerReloader(INSTANCE);
   }
 
   /** Map of all loaded materials */

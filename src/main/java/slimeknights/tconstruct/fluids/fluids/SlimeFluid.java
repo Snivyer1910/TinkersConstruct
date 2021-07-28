@@ -24,10 +24,10 @@ public abstract class SlimeFluid extends MantleFluid {
 
   @Override
   public void onRandomTick(World world, BlockPos pos, FluidState state, Random random) {
-    int oldLevel = method_15741(state);
+    int oldLevel = getBlockStateLevel(state);
     super.onRandomTick(world, pos, state, random);
 
-    if (oldLevel > 0 && oldLevel == method_15741(state)) {
+    if (oldLevel > 0 && oldLevel == getBlockStateLevel(state)) {
       if (random.nextFloat() > 0.6f) {
         // only if they have dirt below them
         Block blockDown = world.getBlockState(pos.down()).getBlock();
@@ -36,7 +36,7 @@ public abstract class SlimeFluid extends MantleFluid {
           for (Direction dir : Direction.Type.HORIZONTAL) {
             FluidState state2 = world.getFluidState(pos.offset(dir));
             // same block and a higher flow
-            if (state2.getFluid() == this && method_15741(state2) == method_15741(state) - 1) {
+            if (state2.getFluid() == this && getBlockStateLevel(state2) == getBlockStateLevel(state) - 1) {
               BlockState dirt = world.getBlockState(pos.offset(dir).down());
               if (TinkerWorld.slimeDirt.contains(dirt.getBlock())) {
                 // we got a block we flowed from and the block we flowed from has slimedirt below
@@ -78,7 +78,7 @@ public abstract class SlimeFluid extends MantleFluid {
     }
   }
 
-  public static class Source extends MantleFluid.Still {
+  public static class Source extends Still {
 
     public Source() {
       super(null, null);

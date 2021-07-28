@@ -9,7 +9,7 @@ import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -340,7 +340,7 @@ public class FuelModule implements PropertyDelegate {
    *
    * @param nbt NBT to read from
    */
-  public void readFromNBT(CompoundTag nbt) {
+  public void readFromNBT(NbtCompound nbt) {
     fuel = nbt.getInt(TAG_FUEL);
     temperature = nbt.getInt(TAG_TEMPERATURE);
     lastPos = TagUtil.readPos(nbt, TAG_LAST_FUEL);
@@ -352,7 +352,7 @@ public class FuelModule implements PropertyDelegate {
    * @param nbt NBT to write to
    * @return NBT written to
    */
-  public CompoundTag writeToNBT(CompoundTag nbt) {
+  public NbtCompound writeToNBT(NbtCompound nbt) {
     nbt.putInt(TAG_FUEL, fuel);
     nbt.putInt(TAG_TEMPERATURE, temperature);
     // technically unneeded for melters, but does not hurt to add

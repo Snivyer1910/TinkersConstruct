@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.smeltery.tileentity.multiblock;
 
 import lombok.Getter;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
@@ -224,8 +224,8 @@ public class MultiblockStructureData {
    * Writes this structure to NBT for the client, client does not need a full list of positions, just render bounds
    * @return  structure as NBT
    */
-  public CompoundTag writeClientNBT() {
-    CompoundTag nbt = new CompoundTag();
+  public NbtCompound writeClientNBT() {
+    NbtCompound nbt = new NbtCompound();
     nbt.put(TAG_MIN, TagUtil.writePos(minPos));
     nbt.put(TAG_MAX, TagUtil.writePos(maxPos));
     return nbt;
@@ -235,8 +235,8 @@ public class MultiblockStructureData {
    * Writes the full NBT data for writing to disk
    * @return  structure as NBT
    */
-  public CompoundTag writeToNBT() {
-    CompoundTag nbt = writeClientNBT();
+  public NbtCompound writeToNBT() {
+    NbtCompound nbt = writeClientNBT();
     if (!extra.isEmpty()) {
       nbt.put(TAG_EXTRA_POS, writePosList(extra));
     }
@@ -248,8 +248,8 @@ public class MultiblockStructureData {
    * @param collection  Position collection
    * @return  NBT list
    */
-  protected static ListTag writePosList(Collection<BlockPos> collection) {
-    ListTag list = new ListTag();
+  protected static NbtList writePosList(Collection<BlockPos> collection) {
+    NbtList list = new NbtList();
     for (BlockPos pos : collection) {
       list.add(TagUtil.writePos(pos));
     }

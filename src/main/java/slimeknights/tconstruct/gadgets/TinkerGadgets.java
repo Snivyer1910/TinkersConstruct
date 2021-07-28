@@ -76,19 +76,19 @@ public final class TinkerGadgets extends TinkerModule {
    * Blocks
    */
   // TODO: moving to natura
-  public static final ItemObject<Block> stoneLadder = BLOCKS.register("stone_ladder", () -> new LadderBlock(builder(Material.SUPPORTED, NO_TOOL, BlockSoundGroup.STONE).strength(0.1F).nonOpaque()) {}, HIDDEN_BLOCK_ITEM);
+  public static final ItemObject<Block> stoneLadder = BLOCKS.register("stone_ladder", () -> new LadderBlock(builder(Material.DECORATION, NO_TOOL, BlockSoundGroup.STONE).strength(0.1F).nonOpaque()) {}, HIDDEN_BLOCK_ITEM);
   // TODO: moving to natura
   public static final ItemObject<Block> punji = BLOCKS.register("punji", () -> new PunjiBlock(builder(Material.PLANT, NO_TOOL, BlockSoundGroup.GRASS).strength(3.0F).nonOpaque()), HIDDEN_BLOCK_ITEM);
   // torch
   // TODO: moving to natura
-  private static final AbstractBlock.Settings STONE_TORCH = builder(Material.SUPPORTED, NO_TOOL, BlockSoundGroup.STONE).noCollision().strength(0.0F).luminance(s -> 14);
+  private static final AbstractBlock.Settings STONE_TORCH = builder(Material.DECORATION, NO_TOOL, BlockSoundGroup.STONE).noCollision().strength(0.0F).luminance(s -> 14);
   public static final WallTorchBlock wallStoneTorch = (WallTorchBlock) BLOCKS.registerNoItem("wall_stone_torch", () -> new WallTorchBlock(STONE_TORCH, ParticleTypes.FLAME) {});
   public static final ItemObject<Block> stoneTorch = BLOCKS.register("stone_torch",
                                                                                () -> new TorchBlock(STONE_TORCH, ParticleTypes.FLAME) {},
                                                                                (block) -> new WallStandingBlockItem(block, wallStoneTorch, getHiddenProps()));
   // rails
   // TODO: moving to tinkers' mechworks
-  private static final AbstractBlock.Settings WOODEN_RAIL = builder(Material.SUPPORTED, NO_TOOL, BlockSoundGroup.WOOD).noCollision().strength(0.2F);
+  private static final AbstractBlock.Settings WOODEN_RAIL = builder(Material.DECORATION, NO_TOOL, BlockSoundGroup.WOOD).noCollision().strength(0.2F);
   public static final ItemObject<Block> woodenDropperRail = BLOCKS.register("wooden_dropper_rail", () -> new DropperRailBlock(WOODEN_RAIL), HIDDEN_BLOCK_ITEM);
   public static final ItemObject<Block> woodenRail = BLOCKS.register("wooden_rail", () -> new RailBlock(WOODEN_RAIL) {}, HIDDEN_BLOCK_ITEM);
 

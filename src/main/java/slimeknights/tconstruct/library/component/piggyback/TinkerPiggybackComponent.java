@@ -10,8 +10,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.network.packet.s2c.play.EntityPassengersSetS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -32,15 +32,15 @@ public class TinkerPiggybackComponent implements ITinkerPiggyback, ComponentV3 {
 	}
 
 	@Override
-	public void readFromNbt(CompoundTag tag) {
-		ListTag riderList = new ListTag();
+	public void readFromNbt(NbtCompound tag) {
+		NbtList riderList = new NbtList();
 
 		for (Entity entity : this.riddenPlayer.getPassengersDeep()) {
 			String id = entity.getSavedEntityId();
 			if (id != null && !"".equals(id)) {
-				CompoundTag entityTag = new CompoundTag();
-				CompoundTag entityDataTag = new CompoundTag();
-				entity.toTag(entityDataTag);
+				NbtCompound entityTag = new NbtCompound();
+				NbtCompound entityDataTag = new NbtCompound();
+				entity.writeNbt(entityDataTag);
 				entityDataTag.putString("id", entity.getSavedEntityId());
 				entityTag.putUuid("Attach", entity.getVehicle().getUuid());
 				entityTag.put("Entity", entityDataTag);
@@ -52,8 +52,8 @@ public class TinkerPiggybackComponent implements ITinkerPiggyback, ComponentV3 {
 	}
 
 	@Override
-	public void writeToNbt(CompoundTag tag) {
-		ListTag riderList = tag.getList("riders", NbtType.COMPOUND);
+	public void writeToNbt(NbtCompound tag) {
+		NbtList riderList = tag.getList("riders", NbtType.COMPOUND);
 
 		Map<UUID, Entity> attachedTo = Maps.newHashMap();
 
@@ -61,7 +61,7 @@ public class TinkerPiggybackComponent implements ITinkerPiggyback, ComponentV3 {
 			ServerWorld serverWorld = (ServerWorld) this.riddenPlayer.getEntityWorld();
 
 			for (int i = 0; i < riderList.size(); i++) {
-				CompoundTag entityTag = riderList.getCompound(i);
+				NbtCompound entityTag = riderList.getCompound(i);
 				Entity entity = EntityType.loadEntityWithPassengers(entityTag.getCompound("Entity"), serverWorld, (p_217885_1_) -> {
 					return !serverWorld.tryLoadEntity(p_217885_1_) ? null : p_217885_1_;
 				});

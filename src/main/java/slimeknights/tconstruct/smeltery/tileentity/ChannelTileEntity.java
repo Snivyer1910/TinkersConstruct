@@ -6,7 +6,7 @@ import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.Direction;
@@ -352,23 +352,23 @@ public class ChannelTileEntity extends BlockEntity implements Tickable, IFluidPa
 	}
 
 	@Override
-	public CompoundTag toInitialChunkDataTag() {
+	public NbtCompound toInitialChunkDataNbt() {
 		// new tag instead of super since default implementation calls the super of writeToNBT
-		return toTag(new CompoundTag());
+		return writeNbt(new NbtCompound());
 	}
 
 	@Override
-	public CompoundTag toTag(CompoundTag nbt) {
-		nbt = super.toTag(nbt);
+	public NbtCompound writeNbt(NbtCompound nbt) {
+		nbt = super.writeNbt(nbt);
 
 		nbt.putByteArray(TAG_IS_FLOWING, isFlowing);
-		nbt.put(TAG_TANK, tank.writeToNBT(new CompoundTag()));
+		nbt.put(TAG_TANK, tank.writeToNBT(new NbtCompound()));
 
 		return nbt;
 	}
 
 	@Override
-	public void fromTag(BlockState state, CompoundTag nbt) {
+	public void fromTag(BlockState state, NbtCompound nbt) {
 		super.fromTag(state, nbt);
 
 		// isFlowing
@@ -388,7 +388,7 @@ public class ChannelTileEntity extends BlockEntity implements Tickable, IFluidPa
 		}
 
 		// tank
-		CompoundTag tankTag = nbt.getCompound(TAG_TANK);
+		NbtCompound tankTag = nbt.getCompound(TAG_TANK);
 		tank.readFromNBT(tankTag);
 	}
 }

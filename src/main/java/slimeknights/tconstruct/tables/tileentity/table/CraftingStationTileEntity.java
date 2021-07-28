@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.CraftingRecipe;
 import net.minecraft.recipe.RecipeManager;
@@ -117,7 +117,7 @@ public class CraftingStationTileEntity extends RetexturedTableTileEntity impleme
     //throw new RuntimeException("CRAB!");
     //TODO: PORT, Does it even need to be ported?
 //    ForgeHooks.setCraftingPlayer(player);
-    DefaultedList<ItemStack> remaining = this.lastRecipe.getRemainingStacks(craftingInventory);
+    DefaultedList<ItemStack> remaining = this.lastRecipe.getRemainder(craftingInventory);
 //    ForgeHooks.setCraftingPlayer(null);
     for (int i = 0; i < remaining.size(); ++i) {
       ItemStack original = this.getStack(i);
@@ -182,8 +182,8 @@ public class CraftingStationTileEntity extends RetexturedTableTileEntity impleme
   }
 
   @Override
-  public CompoundTag getTileData() {
-    return new CompoundTag();
+  public NbtCompound getTileData() {
+    return new NbtCompound();
   }
 
   @Override

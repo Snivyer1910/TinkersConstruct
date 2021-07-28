@@ -7,7 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import slimeknights.mantle.network.packet.IThreadsafePacket;
 
-public class EntityMovementChangePacket implements IThreadsafePacket {
+public class EntityMovementChangePacket extends IThreadsafePacket {
 
   private int entityID;
   private double x;
@@ -17,6 +17,7 @@ public class EntityMovementChangePacket implements IThreadsafePacket {
   private float pitch;
 
   public EntityMovementChangePacket(Entity entity) {
+    super(null);
     this.entityID = entity.getEntityId();
     this.x = entity.getVelocity().x;
     this.y = entity.getVelocity().y;
@@ -26,6 +27,7 @@ public class EntityMovementChangePacket implements IThreadsafePacket {
   }
 
   public EntityMovementChangePacket(PacketByteBuf buffer) {
+    super(buffer);
     this.entityID = buffer.readInt();
     this.x = buffer.readDouble();
     this.y = buffer.readDouble();
@@ -45,7 +47,7 @@ public class EntityMovementChangePacket implements IThreadsafePacket {
   }
 
   @Override
-  public void handleThreadsafe(PlayerEntity player, PacketSender context) {
+  public void handleThreadsafe(PlayerEntity player) {
     HandleClient.handle(this);
   }
 

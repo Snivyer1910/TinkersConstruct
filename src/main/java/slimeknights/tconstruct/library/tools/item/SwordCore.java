@@ -19,7 +19,7 @@ import slimeknights.tconstruct.library.tools.nbt.ToolStack;
  */
 public abstract class SwordCore extends ToolCore {
   public static final Tag<Item> TOOL_TYPE = FabricToolTags.SWORDS;
-  public static final ImmutableSet<Material> EFFECTIVE_MATERIALS = ImmutableSet.of(Material.COBWEB, Material.REPLACEABLE_PLANT, Material.UNUSED_PLANT, Material.GOURD, Material.LEAVES);
+  public static final ImmutableSet<Material> EFFECTIVE_MATERIALS = ImmutableSet.of(Material.COBWEB, Material.REPLACEABLE_PLANT, Material.MOSS_BLOCK, Material.GOURD, Material.LEAVES);
   public static final ToolHarvestLogic HARVEST_LOGIC = new HarvestLogic();
 
   public SwordCore(Settings properties, ToolDefinition toolDefinition) {

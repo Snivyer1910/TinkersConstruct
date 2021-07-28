@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import slimeknights.tconstruct.common.recipe.RecipeCacheInvalidator;
 import slimeknights.tconstruct.library.MaterialRegistry;
+import slimeknights.tconstruct.tables.client.SlotInformationLoader;
 
 import net.minecraft.resource.ReloadableResourceManager;
 import net.minecraft.resource.ServerResourceManager;
@@ -22,8 +23,8 @@ public class ServerResourceManagerMixin {
 
   @Inject(method = "<init>",at = @At("TAIL"))
   public void init(CommandManager.RegistrationEnvironment registrationEnvironment, int i, CallbackInfo ci) {
-    this.resourceManager.registerListener(MaterialRegistry.INSTANCE.materialManager);
-    this.resourceManager.registerListener(MaterialRegistry.INSTANCE.materialStatsManager);
+    this.resourceManager.registerReloader(MaterialRegistry.INSTANCE.materialManager);
+    this.resourceManager.registerReloader(MaterialRegistry.INSTANCE.materialStatsManager);
 //    this.resourceManager.registerListener(RecipeCacheInvalidator.onReloadListenerReload());
 //    MaterialRegistry.addDataPackListeners(resourceManager);
   }

@@ -4,6 +4,9 @@ import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.resource.ReloadableResourceManager;
 import net.minecraft.resource.ResourceManager;
+
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import org.apache.logging.log4j.LogManager;
 import slimeknights.tconstruct.common.recipe.RecipeCacheInvalidator;
 import slimeknights.tconstruct.library.book.TinkerBook;
 import slimeknights.tconstruct.library.client.materials.MaterialRenderInfoLoader;
@@ -29,14 +32,13 @@ public class TinkerClient implements ClientModInitializer {
   public void onInitializeClient() {
     TinkerBook.initBook();
 
-    MinecraftClient minecraft = MinecraftClient.getInstance();
     //noinspection ConstantConditions
-    if (minecraft != null) {
-      ResourceManager manager = MinecraftClient.getInstance().getResourceManager();
+    ClientLifecycleEvents.CLIENT_STARTED.register((client -> {
+      ResourceManager manager = client.getResourceManager();
       if (manager instanceof ReloadableResourceManager) {
         addResourceListeners((ReloadableResourceManager)manager);
       }
-    }
+    }));
 
     // add the recipe cache invalidator to the client
 //    Consumer<RecipesUpdatedEvent> recipesUpdated = event -> RecipeCacheInvalidator.reload(true);
@@ -51,12 +53,13 @@ public class TinkerClient implements ClientModInitializer {
   /**
    * Adds resource listeners to the client class
    */
-  private static void addResourceListeners(ReloadableResourceManager manager) {
+  public static void addResourceListeners(ReloadableResourceManager manager) {
+    LogManager.getLogger().info("Registering ResourceListeners");
     WorldClientEvents.addResourceListener(manager);
     TableClientEvents.addResourceListener(manager);
     SmelteryClientEvents.addResourceListener(manager);
     MaterialRenderInfoLoader.addResourceListener(manager);
-    manager.registerListener(textureValidator);
-    manager.registerListener(HarvestLevels.INSTANCE);
+    manager.registerReloader(textureValidator);
+    manager.registerReloader(HarvestLevels.INSTANCE);
   }
 }

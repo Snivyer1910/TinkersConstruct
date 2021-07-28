@@ -38,11 +38,13 @@ public abstract class LivingEntityMixin extends Entity {
   protected abstract boolean shouldAlwaysDropXp();
 
   @Shadow
-  protected abstract boolean canDropLootAndXp();
+  protected abstract boolean shouldDropXp();
 
   @Shadow
-  protected abstract int getCurrentExperience(PlayerEntity player);
+  protected abstract boolean shouldDropLoot();
 
+  @Shadow
+  protected abstract int getXpToDrop(PlayerEntity player);
 
   @Inject(method = "jump",at = @At("TAIL"))
   public void jump(CallbackInfo ci) {
@@ -53,11 +55,11 @@ public abstract class LivingEntityMixin extends Entity {
   public void dropXp(DamageSource source, CallbackInfo ci) {
     ci.cancel();
 
-    if (world.isClient || (!shouldAlwaysDropXp() && (playerHitTimer <= 0 || !canDropLootAndXp() || !world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)))) {
+    if (world.isClient || (!shouldAlwaysDropXp() && (playerHitTimer <= 0 || !(shouldDropXp() && shouldDropLoot()) || !world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)))) {
       return;
     }
 
-    int expToDrop = getCurrentExperience(attackingPlayer);
+    int expToDrop = getXpToDrop(attackingPlayer);
     LivingEntity thisEntity = (LivingEntity) (Object) this;
 
     expToDrop = LivingEntityDropXpCallback.EVENT.invoker().onDropXp(thisEntity, source, expToDrop).getValue();

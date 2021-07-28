@@ -10,12 +10,14 @@ import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
+
+import org.apache.logging.log4j.LogManager;
 import slimeknights.mantle.util.NotNullConsumer;
 import slimeknights.mantle.util.WeakConsumerWrapper;
 import slimeknights.tconstruct.fluids.IFluidHandler;
@@ -102,6 +104,7 @@ public class FaucetTileEntity extends BlockEntity implements Tickable {
    * @return Fluid handler
    */
   private IFluidHandler findFluidHandler(Direction side) {
+    //TODO: Fix me
     assert world != null;
     BlockEntity blockEntity = world.getBlockEntity(pos.offset(side));
     if(blockEntity instanceof SmelteryTileEntity) {
@@ -110,7 +113,16 @@ public class FaucetTileEntity extends BlockEntity implements Tickable {
     } else if(blockEntity instanceof CastingTileEntity) {
       CastingTileEntity castingTileEntity = (CastingTileEntity) blockEntity;
       return castingTileEntity.getTank();
+    } else if(blockEntity instanceof DrainTileEntity) {
+      DrainTileEntity drainTileEntity = (DrainTileEntity) blockEntity;
+      BlockEntity master = world.getBlockEntity(drainTileEntity.getMasterPos());
+      if(master instanceof SmelteryTileEntity) {
+        SmelteryTileEntity smeltery = (SmelteryTileEntity) master;
+        LogManager.getLogger().info(smeltery);
+        return smeltery.getTank();
+      }
     }
+
     throw new RuntimeException(blockEntity.toString());
   }
 
@@ -368,28 +380,28 @@ public class FaucetTileEntity extends BlockEntity implements Tickable {
   }
 
   @Override
-  public CompoundTag toInitialChunkDataTag() {
+  public NbtCompound toInitialChunkDataNbt() {
     // new tag instead of super since default implementation calls the super of writeToNBT
-    return toTag(new CompoundTag());
+    return writeNbt(new NbtCompound());
   }
 
   @Override
-  public CompoundTag toTag(CompoundTag compound) {
-    compound = super.toTag(compound);
+  public NbtCompound writeNbt(NbtCompound compound) {
+    compound = super.writeNbt(compound);
     compound.putByte(TAG_STATE, (byte) faucetState.ordinal());
     compound.putBoolean(TAG_STOP, stopPouring);
     compound.putBoolean(TAG_LAST_REDSTONE, lastRedstoneState);
     if (!drained.isEmpty()) {
-      compound.put(TAG_DRAINED, drained.toTag(new CompoundTag()));
+      compound.put(TAG_DRAINED, drained.toTag(new NbtCompound()));
     }
     if (!renderFluid.isEmpty()) {
-      compound.put(TAG_RENDER_FLUID, renderFluid.toTag(new CompoundTag()));
+      compound.put(TAG_RENDER_FLUID, renderFluid.toTag(new NbtCompound()));
     }
     return compound;
   }
 
   @Override
-  public void fromTag(BlockState state, CompoundTag compound) {
+  public void fromTag(BlockState state, NbtCompound compound) {
     super.fromTag(state, compound);
 
     faucetState = FaucetState.fromIndex(compound.getByte(TAG_STATE));

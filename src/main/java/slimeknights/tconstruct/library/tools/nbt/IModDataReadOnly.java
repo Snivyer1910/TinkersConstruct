@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.library.tools.nbt;
 
 import java.util.function.BiFunction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.Identifier;
 
 /**
@@ -22,8 +22,8 @@ public interface IModDataReadOnly {
     }
 
     @Override
-    public <T> T get(Identifier name, BiFunction<CompoundTag,String,T> function) {
-      return function.apply(new CompoundTag(), name.toString());
+    public <T> T get(Identifier name, BiFunction<NbtCompound,String,T> function) {
+      return function.apply(new NbtCompound(), name.toString());
     }
 
     @Override
@@ -46,7 +46,7 @@ public interface IModDataReadOnly {
    * @param <T>  NBT type of output
    * @return  Data based on the function
    */
-  <T> T get(Identifier name, BiFunction<CompoundTag,String,T> function);
+  <T> T get(Identifier name, BiFunction<NbtCompound,String,T> function);
 
   /**
    * Checks if the data contains the given tag
@@ -64,8 +64,8 @@ public interface IModDataReadOnly {
    * @param name  Name
    * @return  Integer value
    */
-  default Tag get(Identifier name) {
-    return get(name, CompoundTag::get);
+  default NbtElement get(Identifier name) {
+    return get(name, NbtCompound::get);
   }
 
   /**
@@ -74,7 +74,7 @@ public interface IModDataReadOnly {
    * @return  Integer value
    */
   default int getInt(Identifier name) {
-    return get(name, CompoundTag::getInt);
+    return get(name, NbtCompound::getInt);
   }
 
   /**
@@ -83,7 +83,7 @@ public interface IModDataReadOnly {
    * @return  Boolean value
    */
   default boolean getBoolean(Identifier name) {
-    return get(name, CompoundTag::getBoolean);
+    return get(name, NbtCompound::getBoolean);
   }
 
   /**
@@ -92,7 +92,7 @@ public interface IModDataReadOnly {
    * @return  Float value
    */
   default float getFloat(Identifier name) {
-    return get(name, CompoundTag::getFloat);
+    return get(name, NbtCompound::getFloat);
   }
 
   /**
@@ -101,7 +101,7 @@ public interface IModDataReadOnly {
    * @return  String value
    */
   default String getString(Identifier name) {
-    return get(name, CompoundTag::getString);
+    return get(name, NbtCompound::getString);
   }
 
   /**
@@ -109,7 +109,7 @@ public interface IModDataReadOnly {
    * @param name  Name
    * @return  Compound value
    */
-  default CompoundTag getCompound(Identifier name) {
-    return get(name, CompoundTag::getCompound);
+  default NbtCompound getCompound(Identifier name) {
+    return get(name, NbtCompound::getCompound);
   }
 }

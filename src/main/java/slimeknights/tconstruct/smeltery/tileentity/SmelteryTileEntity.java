@@ -12,7 +12,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -478,7 +478,7 @@ public class SmelteryTileEntity extends NamableTileEntity implements Tickable, I
   /* NBT */
 
   @Override
-  public void fromTag(BlockState state, CompoundTag nbt) {
+  public void fromTag(BlockState state, NbtCompound nbt) {
     super.fromTag(state, nbt);
     if (nbt.contains(TAG_TANK, NbtType.COMPOUND)) {
       tank.read(nbt.getCompound(TAG_TANK));
@@ -500,9 +500,9 @@ public class SmelteryTileEntity extends NamableTileEntity implements Tickable, I
   }
 
   @Override
-  public CompoundTag toTag(CompoundTag compound) {
+  public NbtCompound writeNbt(NbtCompound compound) {
     // NBT that just writes to disk
-    compound = super.toTag(compound);
+    compound = super.writeNbt(compound);
     if (structure != null) {
       compound.put(TAG_STRUCTURE, structure.writeToNBT());
     }
@@ -511,17 +511,17 @@ public class SmelteryTileEntity extends NamableTileEntity implements Tickable, I
   }
 
   @Override
-  public void writeSynced(CompoundTag compound) {
+  public void writeSynced(NbtCompound compound) {
     // NBT that writes to disk and syncs to client
     super.writeSynced(compound);
-    compound.put(TAG_TANK, tank.write(new CompoundTag()));
+    compound.put(TAG_TANK, tank.write(new NbtCompound()));
     compound.put(TAG_INVENTORY, meltingInventory.writeToNBT());
   }
 
   @Override
-  public CompoundTag toInitialChunkDataTag() {
+  public NbtCompound toInitialChunkDataNbt() {
     // NBT that just syncs to client
-    CompoundTag nbt = super.toInitialChunkDataTag();
+    NbtCompound nbt = super.toInitialChunkDataNbt();
     if (structure != null) {
       nbt.put(TAG_STRUCTURE, structure.writeClientNBT());
     }

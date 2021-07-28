@@ -1,5 +1,5 @@
 plugins {
-    id("fabric-loom") version "0.8-SNAPSHOT"
+    id("fabric-loom") version "0.7-SNAPSHOT"
 }
 
 base.archivesBaseName = "tinkers-construct"
@@ -38,7 +38,11 @@ repositories {
         name = "Ladysnake Mods"
         url = uri("https://ladysnake.jfrog.io/artifactory/mods")
     }
-
+    maven {
+        url = uri("https://storage.googleapis.com/devan-maven/")
+        // for 0.4.2 and older
+        // url uri("https://raw.githubusercontent.com/Devan-Kerman/Devan-Repo/master/")
+    }
     mavenLocal()
 }
 
@@ -52,11 +56,11 @@ sourceSets {
 
 dependencies {
     minecraft("net.minecraft", "minecraft", "1.16.5")
-    mappings("net.fabricmc", "yarn", "1.16.5+build.6", classifier = "v2")
+    mappings("net.fabricmc", "yarn", "1.16.5+build.10", classifier = "v2")
 
     modImplementation("net.fabricmc", "fabric-loader", "0.11.3")
     modImplementation("net.fabricmc.fabric-api", "fabric-api", "0.32.5+1.16")
-    modImplementation("slimeknights", "Mantle", "1.6.43-SNAPSHOT")
+    modImplementation("slimeknights", "Mantle", "1.7.6-SNAPSHOT")
 
     modApi("me.shedaniel", "RoughlyEnoughItems", "5.11.202")
     modApi("me.shedaniel.cloth", "cloth-config-fabric", "4.11.19")

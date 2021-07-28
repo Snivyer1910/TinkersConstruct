@@ -10,7 +10,7 @@ import net.minecraft.text.Text;
 import slimeknights.mantle.network.packet.IThreadsafePacket;
 import slimeknights.tconstruct.tables.client.inventory.BaseStationScreen;
 
-public class UpdateStationScreenPacket implements IThreadsafePacket {
+public class UpdateStationScreenPacket extends IThreadsafePacket {
 
   private final PacketType type;
   private final Text message;
@@ -21,11 +21,13 @@ public class UpdateStationScreenPacket implements IThreadsafePacket {
    * @param message the message to display if a warning or error occurred
    */
   public UpdateStationScreenPacket(PacketType type, Text message) {
+    super(null);
     this.type = type;
     this.message = message;
   }
 
   public UpdateStationScreenPacket(PacketByteBuf buffer) {
+    super(buffer);
     this.type = buffer.readEnumConstant(PacketType.class);
 
     if (buffer.readBoolean()) {
@@ -50,7 +52,7 @@ public class UpdateStationScreenPacket implements IThreadsafePacket {
   }
 
   @Override
-  public void handleThreadsafe(PlayerEntity context, PacketSender sender) {
+  public void handleThreadsafe(PlayerEntity context) {
     HandleClient.handle(this);
   }
 

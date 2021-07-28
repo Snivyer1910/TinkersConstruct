@@ -9,11 +9,11 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Quaternion;
+import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.World;
 import slimeknights.tconstruct.smeltery.block.ControllerBlock;
 import slimeknights.tconstruct.smeltery.tileentity.SmelteryTileEntity;
@@ -51,7 +51,7 @@ public class SmelteryTileEntityRenderer extends BlockEntityRenderer<SmelteryTile
     int zd = 1 + maxPos.getZ() - minPos.getZ();
     int layer = xd * zd;
     Direction facing = state.get(ControllerBlock.FACING);
-    Quaternion itemRotation = Vector3f.POSITIVE_Y.getDegreesQuaternion(-90.0F * (float)facing.getHorizontal());
+    Quaternion itemRotation = Vec3f.POSITIVE_Y.getDegreesQuaternion(-90.0F * (float)facing.getHorizontal());
     MeltingModuleInventory inventory = smeltery.getMeltingInventory();
     for (int i = 0; i < inventory.getSlots(); i++) {
       ItemStack stack = inventory.getStackInSlot(i);

@@ -40,7 +40,7 @@ public final class TinkerCommons extends TinkerModule {
   /*
    * Blocks
    */
-  public static final GlowBlock glow = (GlowBlock) BLOCKS.registerNoItem("glow", () -> new GlowBlock(builder(Material.SUPPORTED, NO_TOOL, BlockSoundGroup.WOOL).strength(0.0F).luminance(s -> 14).nonOpaque()));
+  public static final GlowBlock glow = (GlowBlock) BLOCKS.registerNoItem("glow", () -> new GlowBlock(builder(Material.DECORATION, NO_TOOL, BlockSoundGroup.WOOL).strength(0.0F).luminance(s -> 14).nonOpaque()));
   public static final BuildingBlockObject mudBricks = BLOCKS.registerBuilding("mud_bricks", builder(Material.SOIL, FabricToolTags.SHOVELS, BlockSoundGroup.GRAVEL).requiresTool().strength(2.0F), getGeneralBlockItem());
   // clay
   // TODO: moving to natura

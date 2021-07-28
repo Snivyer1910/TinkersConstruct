@@ -22,11 +22,16 @@ import net.minecraft.text.TextColor;
 import net.minecraft.util.registry.Registry;
 
 @Getter
-@AllArgsConstructor
-public class UpdateMaterialsPacket implements IThreadsafePacket {
+public class UpdateMaterialsPacket extends IThreadsafePacket {
   private final Collection<IMaterial> materials;
 
+  public UpdateMaterialsPacket(Collection<IMaterial> materials) {
+    super(null);
+    this.materials = materials;
+  }
+
   public UpdateMaterialsPacket(PacketByteBuf buffer) {
+    super(buffer);
     int materialCount = buffer.readInt();
     this.materials = new ArrayList<>(materialCount);
 
@@ -74,7 +79,7 @@ public class UpdateMaterialsPacket implements IThreadsafePacket {
   }
 
   @Override
-  public void handleThreadsafe(PlayerEntity player, PacketSender context) {
+  public void handleThreadsafe(PlayerEntity player) {
     MaterialRegistry.updateMaterialsFromServer(this);
   }
 }

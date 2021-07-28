@@ -15,13 +15,14 @@ import java.util.List;
 /**
  * Packet sent when the smeltery structure changes
  */
-public class SmelteryStructureUpdatedPacket implements IThreadsafePacket {
+public class SmelteryStructureUpdatedPacket extends IThreadsafePacket {
   private final BlockPos pos;
   private final BlockPos minPos;
   private final BlockPos maxPos;
   private final List<BlockPos> tanks;
   
   public SmelteryStructureUpdatedPacket(BlockPos pos, BlockPos minPos, BlockPos maxPos, List<BlockPos> tanks) {
+    super(null);
     this.pos = pos;
     this.minPos = minPos;
     this.maxPos = maxPos;
@@ -29,6 +30,7 @@ public class SmelteryStructureUpdatedPacket implements IThreadsafePacket {
   }
 
   public SmelteryStructureUpdatedPacket(PacketByteBuf buffer) {
+    super(buffer);
     pos = buffer.readBlockPos();
     minPos = buffer.readBlockPos();
     maxPos = buffer.readBlockPos();
@@ -51,7 +53,7 @@ public class SmelteryStructureUpdatedPacket implements IThreadsafePacket {
   }
 
   @Override
-  public void handleThreadsafe(PlayerEntity player, PacketSender context) {
+  public void handleThreadsafe(PlayerEntity player) {
     HandleClient.handle(this);
   }
 
