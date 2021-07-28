@@ -8,17 +8,19 @@ import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import slimeknights.mantle.network.packet.IThreadsafePacket;
 import slimeknights.tconstruct.tables.inventory.table.tinkerstation.TinkerStationContainer;
 
-public class TinkerStationSelectionPacket implements IThreadsafePacket {
+public class TinkerStationSelectionPacket extends IThreadsafePacket {
 
   private final int activeSlots;
   private final boolean tinkerSlotHidden;
 
   public TinkerStationSelectionPacket(int activeSlots, boolean tinkerSlotHidden) {
+    super(null);
     this.activeSlots = activeSlots;
     this.tinkerSlotHidden = tinkerSlotHidden;
   }
 
   public TinkerStationSelectionPacket(PacketByteBuf buffer) {
+    super(buffer);
     this.activeSlots = buffer.readInt();
     this.tinkerSlotHidden = buffer.readBoolean();
   }
@@ -30,7 +32,7 @@ public class TinkerStationSelectionPacket implements IThreadsafePacket {
   }
 
   @Override
-  public void handleThreadsafe(PlayerEntity player, PacketSender context) {
+  public void handleThreadsafe(PlayerEntity player) {
     ServerPlayerEntity sender = (ServerPlayerEntity) player;
     if (sender != null) {
       ScreenHandler container = sender.currentScreenHandler;

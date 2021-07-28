@@ -5,7 +5,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.world.World;
@@ -23,7 +23,7 @@ public class IndestructibleEntityItem extends ItemEntity {
 
   public IndestructibleEntityItem(World worldIn, double x, double y, double z, ItemStack stack) {
     super(TinkerTools.indestructibleItem, worldIn);
-    this.updatePosition(x, y, z);
+    this.setPosition(x, y, z);
     this.yaw = this.random.nextFloat() * 360.0F;
     this.setVelocity(this.random.nextDouble() * 0.2D - 0.1D, 0.2D, this.random.nextDouble() * 0.2D - 0.1D);
     this.setStack(stack);
@@ -47,8 +47,8 @@ public class IndestructibleEntityItem extends ItemEntity {
    * workaround for private access on pickup delay. We simply read it from the items NBT representation ;)
    */
   private short getPickupDelay(ItemEntity reference) {
-    CompoundTag tag = new CompoundTag();
-    reference.writeCustomDataToTag(tag);
+    NbtCompound tag = new NbtCompound();
+    reference.writeCustomDataToNbt(tag);
     return tag.getShort("PickupDelay");
   }
 

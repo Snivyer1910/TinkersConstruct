@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.tables.client.inventory.module;
 
-import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
@@ -52,7 +52,7 @@ public class SideButtonsScreen extends ModuleScreen {
   @Override
   public boolean handleMouseClicked(double mouseX, double mouseY, int mouseButton) {
     if (mouseButton == 0) {
-      for (AbstractButtonWidget widget : this.buttons) {
+      for (ClickableWidget widget : this.buttons) {
         if (widget instanceof ButtonWidget) {
           ButtonWidget button = (ButtonWidget) widget;
 
@@ -80,7 +80,7 @@ public class SideButtonsScreen extends ModuleScreen {
 
   @Override
   protected void drawBackground(MatrixStack matrices, float partialTicks, int mouseX, int mouseY) {
-    for (AbstractButtonWidget widget : this.buttons) {
+    for (ClickableWidget widget : this.buttons) {
       widget.render(matrices, mouseX, mouseY, partialTicks);
     }
   }

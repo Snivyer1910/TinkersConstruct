@@ -38,9 +38,7 @@ import java.util.stream.Collectors;
  * Recipe type that converts a material item from one material to another using a fluid
  */
 public abstract class CompositeCastingRecipe implements ICastingRecipe, IMultiRecipe<IDisplayableCastingRecipe> {
-  @Getter
   protected final RecipeType<?> type;
-  @Getter
   private final Identifier id;
   /** Material type to check from the input stack */
   protected final MaterialId inputId;
@@ -176,7 +174,7 @@ public abstract class CompositeCastingRecipe implements ICastingRecipe, IMultiRe
     }
 
     @Override
-    public net.minecraft.recipe.RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
       return TinkerSmeltery.basinCompositeSerializer;
     }
 
@@ -198,7 +196,7 @@ public abstract class CompositeCastingRecipe implements ICastingRecipe, IMultiRe
     }
 
     @Override
-    public net.minecraft.recipe.RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
       return TinkerSmeltery.tableCompositeSerializer;
     }
 

@@ -20,16 +20,16 @@ import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.texture.MissingSprite;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.client.util.math.AffineTransformation;
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
+import net.minecraft.util.math.AffineTransformation;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec2f;
+import net.minecraft.util.math.Vec3f;
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -207,7 +207,7 @@ public class MaterialModel implements TinkerModelGeometry {
     } else {
       // divide by 16 to convert from pixels to base values
       // negate Y as positive is up for transforms but down for pixels
-      transforms = new AffineTransformation(new Vector3f(offset.x / 16, -offset.y / 16, 0), null, null, null);
+      transforms = new AffineTransformation(new Vec3f(offset.x / 16, -offset.y / 16, 0), null, null, null);
     }
 
     // if the material is already set, no need to set overrides

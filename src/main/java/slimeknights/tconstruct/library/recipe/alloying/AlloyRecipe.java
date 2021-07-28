@@ -202,7 +202,7 @@ public class AlloyRecipe implements ICustomOutputRecipe<IAlloyTank> {
   }
 
   @Override
-  public net.minecraft.recipe.RecipeSerializer<?> getSerializer() {
+  public RecipeSerializer<?> getSerializer() {
     return TinkerSmeltery.alloyingSerializer;
   }
 

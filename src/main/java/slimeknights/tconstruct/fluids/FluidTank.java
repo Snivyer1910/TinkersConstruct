@@ -9,7 +9,7 @@ import alexiil.mc.lib.attributes.fluid.filter.ConstantFluidFilter;
 import alexiil.mc.lib.attributes.fluid.filter.FluidFilter;
 import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
 import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import org.jetbrains.annotations.NotNull;
 import slimeknights.tconstruct.smeltery.tileentity.ITankTileEntity;
 
@@ -62,12 +62,12 @@ public class FluidTank extends SimpleFixedFluidInv implements IFluidHandler {
     return getFluid().getAmount_F();
   }
 
-  public FluidTank readFromNBT(CompoundTag nbt) {
+  public FluidTank readFromNBT(NbtCompound nbt) {
     fromTag(nbt);
     return this;
   }
 
-  public CompoundTag writeToNBT(CompoundTag nbt) {
+  public NbtCompound writeToNBT(NbtCompound nbt) {
     return toTag(nbt);
   }
 

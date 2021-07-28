@@ -7,7 +7,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemStack.TooltipSection;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 
@@ -60,7 +60,7 @@ public final class ModifierUtil {
    * @param stack  Stack to clear enchants
    */
   public static void clearEnchantments(ItemStack stack) {
-    CompoundTag nbt = stack.getTag();
+    NbtCompound nbt = stack.getTag();
     if (nbt != null) {
       nbt.remove(TAG_ENCHANTMENTS);
       nbt.remove(TAG_HIDE_FLAGS);

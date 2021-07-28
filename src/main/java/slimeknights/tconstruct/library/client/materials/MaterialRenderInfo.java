@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.client.texture.MissingSprite;
 import net.minecraft.client.texture.Sprite;
+import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -95,10 +96,10 @@ public class MaterialRenderInfo {
    * @return  Material instance
    */
   private static SpriteIdentifier getMaterial(Identifier texture, String suffix) {
-    throw new RuntimeException("CRAB!");
+    //throw new RuntimeException("CRAB!");
     //TODO: PORT
-//    return new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(texture.getNamespace(), texture.getPath() + "_" + suffix));
-//    return ModelLoaderRegistry.blockMaterial(new Identifier(texture.getNamespace(), texture.getPath() + "_" + suffix));
+    return new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(texture.getNamespace(), texture.getPath() + "_" + suffix));
+    //return ModelLoaderRegistry.blockMaterial(new Identifier(texture.getNamespace(), texture.getPath() + "_" + suffix));
   }
 
   /** Data class for a sprite that may be tinted */

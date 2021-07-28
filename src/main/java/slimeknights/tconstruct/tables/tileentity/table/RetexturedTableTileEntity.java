@@ -1,11 +1,11 @@
 package slimeknights.tconstruct.tables.tileentity.table;
 
-import net.minecraft.nbt.CompoundTag;
 import slimeknights.mantle.model.IModelData;
 import slimeknights.mantle.tileentity.IRetexturedTileEntity;
 import slimeknights.tconstruct.shared.tileentity.TableTileEntity;
 
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Lazy;
 import net.minecraft.util.math.Box;
 
@@ -16,8 +16,8 @@ public abstract class RetexturedTableTileEntity extends TableTileEntity implemen
   }
 
   @Override
-  public CompoundTag getTileData() {
-    return new CompoundTag();
+  public NbtCompound getTileData() {
+    return new NbtCompound();
   }
 
   //  @Override

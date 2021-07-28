@@ -102,7 +102,7 @@ public class RectangleAOEHarvestLogic extends ToolHarvestLogic {
     /** Original position, skipped in iteration */
     protected final BlockPos origin;
     /** Position modified as we iterate */
-    protected final BlockPos.Mutable mutablePos;
+    protected final Mutable mutablePos;
     /** Predicate to check before returning a position */
     protected final Predicate<BlockPos> posPredicate;
     /** Last returned values for the three coords */

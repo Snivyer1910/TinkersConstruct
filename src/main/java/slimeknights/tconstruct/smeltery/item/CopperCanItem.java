@@ -7,7 +7,7 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
@@ -62,7 +62,7 @@ public class CopperCanItem extends Item {
   /** Sets the fluid on the given stack */
   public static ItemStack setFluid(ItemStack stack, Fluid fluid) {
     if (stack.hasTag() || fluid != Fluids.EMPTY) {
-      CompoundTag nbt = stack.getOrCreateTag();
+      NbtCompound nbt = stack.getOrCreateTag();
       nbt.putString(TAG_FLUID, Objects.requireNonNull(Registry.FLUID.getId(fluid)).toString());
     }
     return stack;
@@ -70,7 +70,7 @@ public class CopperCanItem extends Item {
 
   /** Gets the fluid from the given stack */
   public static Fluid getFluid(ItemStack stack) {
-    CompoundTag nbt = stack.getTag();
+    NbtCompound nbt = stack.getTag();
     if (nbt != null) {
       Identifier location = Identifier.tryParse(nbt.getString(TAG_FLUID));
       if (location != null && Registry.FLUID.containsId(location)) {
@@ -89,7 +89,7 @@ public class CopperCanItem extends Item {
    * @return  String variant name
    */
   public static String getSubtype(ItemStack stack) {
-    CompoundTag nbt = stack.getTag();
+    NbtCompound nbt = stack.getTag();
     if (nbt != null) {
       return nbt.getString(TAG_FLUID);
     }

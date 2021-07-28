@@ -58,7 +58,7 @@ public abstract class MaterialCastingRecipe extends AbstractCastingRecipe implem
   }
 
   @Override
-  public DefaultedList<Ingredient> getPreviewInputs() {
+  public DefaultedList<Ingredient> getIngredients() {
     return DefaultedList.copyOf(Ingredient.EMPTY, this.cast);
   }
 

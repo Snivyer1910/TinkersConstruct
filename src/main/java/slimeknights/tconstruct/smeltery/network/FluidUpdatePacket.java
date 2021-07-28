@@ -11,17 +11,19 @@ import slimeknights.mantle.util.TileEntityHelper;
 
 import java.io.IOException;
 
-public class FluidUpdatePacket implements IThreadsafePacket {
+public class FluidUpdatePacket extends IThreadsafePacket {
 
   protected final BlockPos pos;
   protected final FluidVolume fluid;
 
   public FluidUpdatePacket(BlockPos pos, FluidVolume fluid) {
+    super(null);
     this.pos = pos;
     this.fluid = fluid;
   }
 
   public FluidUpdatePacket(PacketByteBuf buffer) {
+    super(buffer);
     try {
       this.pos = buffer.readBlockPos();
       this.fluid = FluidVolume.fromMcBuffer(buffer);
@@ -37,7 +39,7 @@ public class FluidUpdatePacket implements IThreadsafePacket {
   }
 
   @Override
-  public void handleThreadsafe(PlayerEntity player, PacketSender context) {
+  public void handleThreadsafe(PlayerEntity player) {
     HandleClient.handle(this);
   }
 

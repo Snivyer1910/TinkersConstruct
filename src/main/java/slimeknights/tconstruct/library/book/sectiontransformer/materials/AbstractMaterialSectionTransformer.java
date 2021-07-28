@@ -66,7 +66,7 @@ public abstract class AbstractMaterialSectionTransformer extends SectionTransfor
       List<ItemStack> displayStacks = new ArrayList<>();
 
       for (MaterialRecipe recipe : recipes) {
-        for (Ingredient ingredient : recipe.getPreviewInputs()) {
+        for (Ingredient ingredient : recipe.getIngredients()) {
           if (!ingredient.isEmpty()) {
             displayStacks.addAll(Arrays.asList(ingredient.getMatchingStacksClient()));
           }

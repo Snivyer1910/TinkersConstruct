@@ -7,7 +7,7 @@ import net.minecraft.client.render.VertexFormatElement;
 import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.client.util.math.AffineTransformation;
+import net.minecraft.util.math.AffineTransformation;
 import net.minecraft.util.math.Direction;
 
 import java.util.*;
@@ -278,7 +278,7 @@ public class ItemLayerModel {
           consumer.put(e, offX, offY, offZ, 0f);
           break;
         case UV:
-          switch (element.getIndex()) {
+          switch (element.getTextureIndex()) {
             case 0:
               consumer.put(e, u, v, 0f, 1f);
               break outer;

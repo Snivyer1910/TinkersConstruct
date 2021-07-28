@@ -138,14 +138,14 @@ public class MaterialStatsManager extends JsonDataLoader {
   }
 
   //@Override
-  protected Object getUpdatePacket() {
-    Map<MaterialId, Collection<IMaterialStats>> networkPayload =
-      materialToStatsPerType.entrySet().stream()
-                            .collect(Collectors.toMap(
-                              Map.Entry::getKey,
-                              entry -> entry.getValue().values()));
-    return new UpdateMaterialStatsPacket(networkPayload);
-  }
+//  protected Object getUpdatePacket() {
+//    Map<MaterialId, Collection<IMaterialStats>> networkPayload =
+//      materialToStatsPerType.entrySet().stream()
+//                            .collect(Collectors.toMap(
+//                              Map.Entry::getKey,
+//                              entry -> entry.getValue().values()));
+//    return new UpdateMaterialStatsPacket(networkPayload);
+//  }
 
   private Map<MaterialStatsId, IMaterialStats> deserializeMaterialStatsFromContent(Map<MaterialStatsId, StatContent> contents) {
     Map<MaterialStatsId, Optional<IMaterialStats>> loadedStats = contents.entrySet().stream()

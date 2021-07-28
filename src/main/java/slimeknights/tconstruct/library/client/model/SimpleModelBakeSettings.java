@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.library.client.model;
 
 import net.minecraft.client.render.model.ModelBakeSettings;
-import net.minecraft.client.util.math.AffineTransformation;
+import net.minecraft.util.math.AffineTransformation;
 import net.minecraft.util.math.Matrix4f;
 
 public class SimpleModelBakeSettings implements ModelBakeSettings {
@@ -17,7 +17,7 @@ public class SimpleModelBakeSettings implements ModelBakeSettings {
   }
 
   @Override
-  public boolean isShaded() {
+  public boolean isUvLocked() {
     return uvLock;
   }
 

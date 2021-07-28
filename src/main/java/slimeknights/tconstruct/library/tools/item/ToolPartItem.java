@@ -9,7 +9,7 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -131,7 +131,7 @@ public class ToolPartItem extends MaterialItem implements IToolPart {
     IMaterial material = this.getMaterial(stack);
 
     if (material == IMaterial.UNKNOWN) {
-      CompoundTag tagSafe = TagUtil.getTagSafe(stack);
+      NbtCompound tagSafe = TagUtil.getTagSafe(stack);
       String materialId = tagSafe.getString(Tags.PART_MATERIAL);
       if (!materialId.isEmpty()) {
         tooltip.add(new TranslatableText("tooltip.part.missing_material", materialId));

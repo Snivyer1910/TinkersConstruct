@@ -92,12 +92,12 @@ public class MeltingFuel implements ICustomOutputRecipe<IFluidInventory> {
   }
 
   @Override
-  public net.minecraft.recipe.RecipeSerializer<?> getSerializer() {
+  public RecipeSerializer<?> getSerializer() {
     return TinkerSmeltery.fuelSerializer;
   }
 
   @Override
-  public ItemStack getRecipeKindIcon() {
+  public ItemStack createIcon() {
     return new ItemStack(TinkerSmeltery.searedTank.get(TankType.TANK));
   }
 

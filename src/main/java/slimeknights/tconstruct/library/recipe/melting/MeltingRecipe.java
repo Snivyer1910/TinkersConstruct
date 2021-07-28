@@ -62,12 +62,12 @@ public class MeltingRecipe implements IMeltingRecipe {
   }
 
   @Override
-  public DefaultedList<Ingredient> getPreviewInputs() {
+  public DefaultedList<Ingredient> getIngredients() {
     return DefaultedList.copyOf(Ingredient.EMPTY, input);
   }
 
   @Override
-  public net.minecraft.recipe.RecipeSerializer<?> getSerializer() {
+  public RecipeSerializer<?> getSerializer() {
     return TinkerSmeltery.meltingSerializer;
   }
 

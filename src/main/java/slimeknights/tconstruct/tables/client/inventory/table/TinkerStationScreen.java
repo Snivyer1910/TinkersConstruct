@@ -2,7 +2,7 @@ package slimeknights.tconstruct.tables.client.inventory.table;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import lombok.Getter;
-import net.minecraft.client.gui.widget.AbstractButtonWidget;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.texture.Sprite;
@@ -142,6 +142,8 @@ public class TinkerStationScreen extends BaseStationScreen<TinkerStationTileEnti
     }
     // apply base slot information
     SlotInformation slotInformation = SlotInformationLoader.get(Util.getResource("repair_" + max));
+    LogManager.getLogger().info(slotInformation);
+    LogManager.getLogger().info(slotInformation.getPoints().size());
     this.currentData = slotInformation;
     this.activeSlots = Math.min(slotInformation.getPoints().size(), max);
 
@@ -424,7 +426,7 @@ public class TinkerStationScreen extends BaseStationScreen<TinkerStationTileEnti
     x += this.centerBeam.drawScaledX(matrices, x, y, this.tinkerInfo.backgroundWidth);
     this.rightBeam.draw(matrices, x, y);
     // draw the decoration for the buttons
-    for (AbstractButtonWidget widget : this.buttonsScreen.getButtons()) {
+    for (ClickableWidget widget : this.buttonsScreen.getButtons()) {
       if(widget instanceof SlotButtonItem) {
         SlotButtonItem button = (SlotButtonItem) widget;
 

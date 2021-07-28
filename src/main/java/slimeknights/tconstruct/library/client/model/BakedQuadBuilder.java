@@ -86,7 +86,7 @@ public class BakedQuadBuilder implements VertexConsumer {
       ImmutableList<VertexFormatElement> elements = VertexFormats.POSITION_COLOR_TEXTURE_LIGHT_NORMAL.getElements();
       while (uve < elements.size()) {
         VertexFormatElement e = elements.get(uve);
-        if (e.getType() == VertexFormatElement.Type.UV && e.getIndex() == 0) {
+        if (e.getType() == VertexFormatElement.Type.UV && e.getTextureIndex() == 0) {
           break;
         }
         uve++;
@@ -136,8 +136,8 @@ public class BakedQuadBuilder implements VertexConsumer {
   public static void pack(float[] from, int[] to, VertexFormat formatTo, int v, int e) {
     VertexFormatElement element = formatTo.getElements().get(e);
     int vertexStart = v * formatTo.getVertexSize() + formatTo.offsets.getInt(e);
-    int count = element.count;
-    VertexFormatElement.Format type = element.getFormat();
+    int count = element.length;
+    VertexFormatElement.Format type = element.getDataType();
     int size = type.getSize();
     int mask = (256 << (8 * (size - 1))) - 1;
     for(int i = 0; i < 4; i++)

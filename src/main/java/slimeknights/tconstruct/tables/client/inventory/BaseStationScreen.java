@@ -103,9 +103,9 @@ public class BaseStationScreen<TILE extends BlockEntity & Inventory, CONTAINER e
     if (state.getBlock() instanceof ITinkerStationBlock) {
       BlockEntity te = this.tile.getWorld().getBlockEntity(pos);
       //((ITinkerStationBlock) state.getBlock()).openGui(MinecraftClient.getInstance().player, MinecraftClient.getInstance().player.getEntityWorld(), pos);
-      //TinkerNetwork.getInstance().sendToServer(new StationTabPacket(pos));
+      TinkerNetwork.getInstance().sendToServer(new StationTabPacket(pos));
       //Do this instead for now because station tab packet is broken because of a thread issue
-      MinecraftClient.getInstance().interactionManager.interactBlock(MinecraftClient.getInstance().player,MinecraftClient.getInstance().player.clientWorld,Hand.MAIN_HAND,new BlockHitResult(MinecraftClient.getInstance().player.getPos(), Direction.UP,pos, false));
+      //MinecraftClient.getInstance().interactionManager.interactBlock(MinecraftClient.getInstance().player,MinecraftClient.getInstance().player.clientWorld,Hand.MAIN_HAND,new BlockHitResult(MinecraftClient.getInstance().player.getPos(), Direction.UP,pos, false));
       // sound!
       assert this.client != null;
       this.client.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));

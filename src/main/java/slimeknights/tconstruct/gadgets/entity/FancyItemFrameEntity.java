@@ -8,7 +8,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.MutableText;
@@ -74,14 +74,14 @@ public class FancyItemFrameEntity extends ItemFrameEntity {// implements IEntity
 //  }
 
   @Override
-  public void writeCustomDataToTag(CompoundTag compound) {
-    super.writeCustomDataToTag(compound);
+  public void writeCustomDataToNbt(NbtCompound compound) {
+    super.writeCustomDataToNbt(compound);
     compound.putInt(TAG_VARIANT, this.getVariantIndex());
   }
 
   @Override
-  public void readCustomDataFromTag(CompoundTag compound) {
-    super.readCustomDataFromTag(compound);
+  public void readCustomDataFromNbt(NbtCompound compound) {
+    super.readCustomDataFromNbt(compound);
     this.dataTracker.set(VARIANT, compound.getInt(TAG_VARIANT));
   }
 

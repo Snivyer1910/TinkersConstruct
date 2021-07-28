@@ -13,14 +13,16 @@ import slimeknights.tconstruct.smeltery.tileentity.tank.ISmelteryTankHandler;
 /**
  * Packet sent when a fluid is clicked in the smeltery UI
  */
-public class SmelteryFluidClickedPacket implements IThreadsafePacket {
+public class SmelteryFluidClickedPacket extends IThreadsafePacket {
   private final int index;
 
   public SmelteryFluidClickedPacket(int index) {
+    super(null);
     this.index = index;
   }
 
   public SmelteryFluidClickedPacket(PacketByteBuf buffer) {
+    super(buffer);
     index = buffer.readVarInt();
   }
 
@@ -30,7 +32,7 @@ public class SmelteryFluidClickedPacket implements IThreadsafePacket {
   }
 
   @Override
-  public void handleThreadsafe(PlayerEntity player, PacketSender context) {
+  public void handleThreadsafe(PlayerEntity player) {
     ServerPlayerEntity sender = (ServerPlayerEntity) player;
     if (sender != null) {
       ScreenHandler container = sender.currentScreenHandler;

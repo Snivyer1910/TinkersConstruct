@@ -29,7 +29,7 @@ public class WorldClientEvents extends ClientEventBase implements ClientModIniti
    */
   public static void addResourceListener(ReloadableResourceManager manager) {
     for (FoliageType type : FoliageType.values()) {
-      manager.registerListener(new SlimeColorReloadListener(type));
+      manager.registerReloader(new SlimeColorReloadListener(type));
     }
   }
 

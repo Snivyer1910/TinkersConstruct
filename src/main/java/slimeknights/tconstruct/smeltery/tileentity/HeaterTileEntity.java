@@ -5,7 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -62,7 +62,7 @@ public class HeaterTileEntity extends NamableTileEntity {
   /* NBT */
 
   @Override
-  public void fromTag(BlockState state, CompoundTag tags) {
+  public void fromTag(BlockState state, NbtCompound tags) {
     super.fromTag(state, tags);
     if (tags.contains(TAG_ITEM, NbtType.COMPOUND)) {
       itemHandler.readFromNBT(tags.getCompound(TAG_ITEM));
@@ -70,7 +70,7 @@ public class HeaterTileEntity extends NamableTileEntity {
   }
 
   @Override
-  public CompoundTag toTag(CompoundTag tags) {
+  public NbtCompound writeNbt(NbtCompound tags) {
     super.writeSynced(tags);
     tags.put(TAG_ITEM, itemHandler.writeToNBT());
     return tags;

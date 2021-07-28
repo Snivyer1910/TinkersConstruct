@@ -11,15 +11,15 @@
     "MagmaCubeEntityMixin",
     "PlayerEntityMixin",
     "MixinWorld"
-
-
   ],
   "client": [
     "client.ModelLoaderMixin",
     "client.ParticleManagerMixin",
     "ServerResourceManagerMixin",
     "client.ClientPlayNetworkHandlerMixin",
-    "client.ItemRendererMixin"
+    "client.ItemRendererMixin",
+    "client.JsonUnbakedModelAccessor",
+    "client.JsonUnbakedModelMixin"
   ],
   "injectors": {
     "defaultRequire": 1

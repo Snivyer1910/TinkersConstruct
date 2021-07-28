@@ -5,7 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.RecipeManager;
 import net.minecraft.screen.ScreenHandler;
@@ -242,13 +242,13 @@ public class TinkerStationTileEntity extends RetexturedTableTileEntity implement
   }
 
   @Override
-  public void fromTag(BlockState blockState, CompoundTag tags) {
+  public void fromTag(BlockState blockState, NbtCompound tags) {
     super.fromTag(blockState, tags);
     inventoryWrapper.resize();
   }
 
   @Override
-  public CompoundTag getTileData() {
+  public NbtCompound getTileData() {
     return null;
   }
 

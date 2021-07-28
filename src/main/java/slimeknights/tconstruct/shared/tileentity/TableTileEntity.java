@@ -3,7 +3,7 @@ package slimeknights.tconstruct.shared.tileentity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.TranslatableText;
 import org.jetbrains.annotations.NotNull;
@@ -39,9 +39,9 @@ public abstract class TableTileEntity extends InventoryTileEntity {
   }
 
   @Override
-  public CompoundTag toInitialChunkDataTag() {
+  public NbtCompound toInitialChunkDataNbt() {
     // sync whole inventory on chunk load
-    return this.toTag(new CompoundTag());
+    return this.writeNbt(new NbtCompound());
   }
 
   /**

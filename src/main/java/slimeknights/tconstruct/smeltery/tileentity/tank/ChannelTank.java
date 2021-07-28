@@ -2,8 +2,8 @@ package slimeknights.tconstruct.smeltery.tileentity.tank;
 
 import alexiil.mc.lib.attributes.Simulation;
 import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
-import net.minecraft.nbt.CompoundTag;
 import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
+import net.minecraft.nbt.NbtCompound;
 import slimeknights.tconstruct.fluids.FluidTank;
 import slimeknights.tconstruct.smeltery.tileentity.ChannelTileEntity;
 
@@ -68,14 +68,14 @@ public class ChannelTank extends FluidTank {
 	}
 
 	@Override
-	public FluidTank readFromNBT(CompoundTag nbt) {
+	public FluidTank readFromNBT(NbtCompound nbt) {
 		this.locked = FluidAmount.fromNbt(nbt.getCompound(TAG_LOCKED));
 		super.readFromNBT(nbt);
 		return this;
 	}
 
 	@Override
-	public CompoundTag writeToNBT(CompoundTag nbt) {
+	public NbtCompound writeToNBT(NbtCompound nbt) {
 		nbt = super.writeToNBT(nbt);
 		nbt.put(TAG_LOCKED, locked.toNbt());
 		return nbt;

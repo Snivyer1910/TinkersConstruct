@@ -7,7 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -41,9 +41,9 @@ public class FancyItemFrameItem extends Item {
       World world = context.getWorld();
       AbstractDecorationEntity frame = this.entityProvider.apply(world, placeLocation, facing);
 
-      CompoundTag tag = stack.getTag();
+      NbtCompound tag = stack.getTag();
       if (tag != null) {
-        EntityType.loadFromEntityTag(world, player, frame, tag);
+        EntityType.loadFromEntityNbt(world, player, frame, tag);
       }
 
       if (frame.canStayAttached()) {

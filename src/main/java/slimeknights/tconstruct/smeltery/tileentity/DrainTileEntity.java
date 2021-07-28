@@ -5,13 +5,14 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 import slimeknights.mantle.model.IModelData;
 import slimeknights.mantle.util.TileEntityHelper;
+import slimeknights.tconstruct.fluids.IFluidHandler;
 import slimeknights.tconstruct.library.client.model.SinglePropertyData;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.smeltery.tileentity.SmelteryInputOutputTileEntity.SmelteryFluidIO;
@@ -64,8 +65,8 @@ public class DrainTileEntity extends SmelteryFluidIO implements IDisplayFluidLis
   }
 
   @Override
-  public CompoundTag toInitialChunkDataTag() {
-    CompoundTag nbt = super.toInitialChunkDataTag();
+  public NbtCompound toInitialChunkDataNbt() {
+    NbtCompound nbt = super.toInitialChunkDataNbt();
     writeMaster(nbt);
     return nbt;
   }
@@ -73,12 +74,12 @@ public class DrainTileEntity extends SmelteryFluidIO implements IDisplayFluidLis
   @Override
   @Nullable
   public BlockEntityUpdateS2CPacket toUpdatePacket() {
-    return new BlockEntityUpdateS2CPacket(pos, 0, writeMaster(new CompoundTag()));
+    return new BlockEntityUpdateS2CPacket(pos, 0, writeMaster(new NbtCompound()));
   }
 
 //  @Override
   public void onDataPacket(ClientConnection net, BlockEntityUpdateS2CPacket pkt) {
-    readMaster(pkt.getCompoundTag());
+    readMaster(pkt.getNbt());
     attachFluidListener();
   }
 }

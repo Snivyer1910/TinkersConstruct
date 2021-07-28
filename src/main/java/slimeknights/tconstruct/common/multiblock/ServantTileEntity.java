@@ -5,7 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
@@ -112,7 +112,7 @@ public class ServantTileEntity extends MantleTileEntity implements IServantLogic
    * Reads the master from NBT
    * @param tags  NBT to read
    */
-  protected void readMaster(CompoundTag tags) {
+  protected void readMaster(NbtCompound tags) {
     BlockPos masterPos = TagUtil.readPos(tags, TAG_MASTER_POS);
     Block masterBlock = null;
     // if the master position is valid, get the master block
@@ -130,7 +130,7 @@ public class ServantTileEntity extends MantleTileEntity implements IServantLogic
   }
 
   @Override
-  public void fromTag(BlockState blockState, CompoundTag tags) {
+  public void fromTag(BlockState blockState, NbtCompound tags) {
     super.fromTag(blockState, tags);
     readMaster(tags);
   }
@@ -139,7 +139,7 @@ public class ServantTileEntity extends MantleTileEntity implements IServantLogic
    * Writes the master position and master block to the given compound
    * @param tags  Tags
    */
-  protected CompoundTag writeMaster(CompoundTag tags) {
+  protected NbtCompound writeMaster(NbtCompound tags) {
     if (masterPos != null && masterBlock != null) {
       tags.put(TAG_MASTER_POS, TagUtil.writePos(masterPos));
       tags.putString(TAG_MASTER_BLOCK, Objects.requireNonNull(Registry.BLOCK.getId(masterBlock).toString()));
@@ -148,8 +148,8 @@ public class ServantTileEntity extends MantleTileEntity implements IServantLogic
   }
 
   @Override
-  public CompoundTag toTag(CompoundTag tags) {
-    tags = super.toTag(tags);
+  public NbtCompound writeNbt(NbtCompound tags) {
+    tags = super.writeNbt(tags);
     writeMaster(tags);
     return tags;
   }

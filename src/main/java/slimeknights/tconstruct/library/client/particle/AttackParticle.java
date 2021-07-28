@@ -30,7 +30,7 @@ public abstract class AttackParticle extends SpriteBillboardParticle {
   }
 
   @Override
-  public int getColorMultiplier(float partialTicks) {
+  public int getBrightness(float partialTicks) {
     return 61680;
   }
 

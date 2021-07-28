@@ -13,19 +13,21 @@ import slimeknights.tconstruct.smeltery.tileentity.CastingTileEntity;
 import slimeknights.tconstruct.smeltery.tileentity.SmelteryTileEntity;
 import slimeknights.tconstruct.tables.tileentity.table.CraftingStationTileEntity;
 
-public class InventorySlotSyncPacket implements IThreadsafePacket {
+public class InventorySlotSyncPacket extends IThreadsafePacket {
 
   public final ItemStack itemStack;
   public final int slot;
   public final BlockPos pos;
 
   public InventorySlotSyncPacket(ItemStack itemStack, int slot, BlockPos pos) {
+    super(null);
     this.itemStack = itemStack;
     this.slot = slot;
     this.pos = pos;
   }
 
   public InventorySlotSyncPacket(PacketByteBuf buffer) {
+    super(buffer);
     this.itemStack = buffer.readItemStack();
     this.slot = buffer.readShort();
     this.pos = buffer.readBlockPos();
@@ -39,7 +41,7 @@ public class InventorySlotSyncPacket implements IThreadsafePacket {
   }
 
   @Override
-  public void handleThreadsafe(PlayerEntity player, PacketSender context) {
+  public void handleThreadsafe(PlayerEntity player) {
     HandleClient.handle(this);
   }
 

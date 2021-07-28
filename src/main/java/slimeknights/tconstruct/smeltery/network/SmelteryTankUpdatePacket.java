@@ -18,16 +18,18 @@ import java.util.List;
 /**
  * Packet sent whenever the contents of the smeltery tank change
  */
-public class SmelteryTankUpdatePacket implements IThreadsafePacket {
+public class SmelteryTankUpdatePacket extends IThreadsafePacket {
   private final BlockPos pos;
   private final List<FluidVolume> fluids;
 
   public SmelteryTankUpdatePacket(BlockPos pos, List<FluidVolume> fluids) {
+    super(null);
     this.pos = pos;
     this.fluids = fluids;
   }
 
   public SmelteryTankUpdatePacket(PacketByteBuf buffer) {
+    super(buffer);
     pos = buffer.readBlockPos();
     int size = buffer.readVarInt();
     fluids = new ArrayList<>(size);
@@ -50,7 +52,7 @@ public class SmelteryTankUpdatePacket implements IThreadsafePacket {
   }
 
   @Override
-  public void handleThreadsafe(PlayerEntity player, PacketSender context) {
+  public void handleThreadsafe(PlayerEntity player) {
     TileEntityHelper.getTile(ISmelteryTankHandler.class, MinecraftClient.getInstance().world, this.pos).ifPresent(te -> te.updateFluidsFromPacket(this.fluids));
   }
 }

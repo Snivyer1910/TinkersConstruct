@@ -81,7 +81,7 @@ public class BeheadingRecipe implements ICustomOutputRecipe<IEmptyInventory> {
   }
 
   @Override
-  public net.minecraft.recipe.RecipeSerializer<?> getSerializer() {
+  public RecipeSerializer<?> getSerializer() {
     return TinkerModifiers.beheadingSerializer;
   }
 

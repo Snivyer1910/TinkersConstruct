@@ -6,7 +6,6 @@ import slimeknights.tconstruct.library.utils.TagUtil;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
 
 public class PlayerDataEvents {
 

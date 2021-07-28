@@ -5,8 +5,8 @@ import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Direction.Type;
@@ -302,7 +302,7 @@ public abstract class MultiblockCuboid<T extends MultiblockStructureData> {
    * @return Structure data, or null if invalid
    */
   @Nullable
-  public T readFromNBT(CompoundTag nbt) {
+  public T readFromNBT(NbtCompound nbt) {
     BlockPos minPos = TagUtil.readPos(nbt, MultiblockStructureData.TAG_MIN);
     BlockPos maxPos = TagUtil.readPos(nbt, MultiblockStructureData.TAG_MAX);
     if (minPos == null || maxPos == null) {
@@ -328,10 +328,10 @@ public abstract class MultiblockCuboid<T extends MultiblockStructureData> {
    * @param key      Key to read
    * @return  Set of positions
    */
-  protected static Collection<BlockPos> readPosList(CompoundTag rootTag, String key) {
+  protected static Collection<BlockPos> readPosList(NbtCompound rootTag, String key) {
     List<BlockPos> collection;
     if (rootTag.contains(key, NbtType.LIST)) {
-      ListTag list = rootTag.getList(key, NbtType.COMPOUND);
+      NbtList list = rootTag.getList(key, NbtType.COMPOUND);
       collection = new ArrayList<>(list.size());
       for (int i = 0; i < list.size(); i++) {
         BlockPos pos = TagUtil.readPos(list.getCompound(i));

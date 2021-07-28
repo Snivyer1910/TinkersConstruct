@@ -41,7 +41,7 @@ public class PartRecipe implements ICommonRecipe<IPartBuilderInventory> {
   }
 
   @Override
-  public ItemStack getRecipeKindIcon() {
+  public ItemStack createIcon() {
     return new ItemStack(TinkerTables.partBuilder);
   }
 

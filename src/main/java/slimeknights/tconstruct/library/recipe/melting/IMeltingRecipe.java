@@ -41,7 +41,7 @@ public interface IMeltingRecipe extends ICustomOutputRecipe<IMeltingInventory> {
   }
 
   @Override
-  default ItemStack getRecipeKindIcon() {
+  default ItemStack createIcon() {
     return new ItemStack(TinkerSmeltery.searedMelter);
   }
 

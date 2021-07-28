@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.RecipeFinder;
+import net.minecraft.recipe.RecipeMatcher;
 
 /**
  * Extension of {@link CraftingInventory} to use instead wrap an existing {@link Inventory}
@@ -61,9 +61,9 @@ public class CraftingInventoryWrapper extends CraftingInventory {
   }
 
   @Override
-  public void provideRecipeInputs(RecipeFinder helper) {
+  public void provideRecipeInputs(RecipeMatcher helper) {
     for (int i = 0; i < crafter.size(); i++) {
-      helper.addNormalItem(crafter.getStack(i));
+      helper.addUnenchantedInput(crafter.getStack(i));
     }
   }
 }

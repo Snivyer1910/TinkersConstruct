@@ -9,8 +9,8 @@ import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import slimeknights.tconstruct.fluids.IFluidHandler;
@@ -262,10 +262,10 @@ public class SmelteryTank implements IFluidHandler {
   }
 
   /** Writes the tank to NBT */
-  public CompoundTag write(CompoundTag nbt) {
-    ListTag list = new ListTag();
+  public NbtCompound write(NbtCompound nbt) {
+    NbtList list = new NbtList();
     for (FluidVolume liquid : fluids) {
-      CompoundTag fluidTag = new CompoundTag();
+      NbtCompound fluidTag = new NbtCompound();
       liquid.toTag(fluidTag);
       list.add(fluidTag);
     }
@@ -275,12 +275,12 @@ public class SmelteryTank implements IFluidHandler {
   }
 
   /** Reads the tank from NBT */
-  public void read(CompoundTag tag) {
-    ListTag list = tag.getList(TAG_FLUIDS, NbtType.COMPOUND);
+  public void read(NbtCompound tag) {
+    NbtList list = tag.getList(TAG_FLUIDS, NbtType.COMPOUND);
     fluids.clear();
     contained = 0;
     for (int i = 0; i < list.size(); i++) {
-      CompoundTag fluidTag = list.getCompound(i);
+      NbtCompound fluidTag = list.getCompound(i);
       FluidVolume fluid = FluidVolume.fromTag(fluidTag);
       if (!fluid.isEmpty()) {
         fluids.add(fluid);

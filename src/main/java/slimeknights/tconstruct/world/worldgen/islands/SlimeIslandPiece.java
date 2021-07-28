@@ -2,7 +2,7 @@ package slimeknights.tconstruct.world.worldgen.islands;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.structure.SimpleStructurePiece;
 import net.minecraft.structure.Structure;
 import net.minecraft.structure.StructureManager;
@@ -51,7 +51,7 @@ public class SlimeIslandPiece extends SimpleStructurePiece {
     this.loadTemplate(templateManager);
   }
 
-  public SlimeIslandPiece(StructureManager templateManager, CompoundTag nbt) {
+  public SlimeIslandPiece(StructureManager templateManager, NbtCompound nbt) {
     super(TinkerStructures.slimeIslandPiece, nbt);
     this.templateName = nbt.getString("Template");
     this.variant = SlimeIslandVariant.getVariantFromIndex(nbt.getInt("Variant"));
@@ -68,7 +68,7 @@ public class SlimeIslandPiece extends SimpleStructurePiece {
   }
 
   @Override
-  protected void toNbt(CompoundTag tagCompound) {
+  protected void toNbt(NbtCompound tagCompound) {
     super.toNbt(tagCompound);
     tagCompound.putString("Template", this.templateName);
     tagCompound.putInt("Variant", this.variant.getIndex());

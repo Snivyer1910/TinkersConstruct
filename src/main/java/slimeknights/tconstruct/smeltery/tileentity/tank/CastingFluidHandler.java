@@ -9,7 +9,7 @@ import lombok.Setter;
 import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
@@ -175,7 +175,7 @@ public class CastingFluidHandler implements IFluidHandler {
   private static final String TAG_CAPACITY = "capacity";
 
   /** Reads the tank from NBT */
-  public void readFromNBT(CompoundTag nbt) {
+  public void readFromNBT(NbtCompound nbt) {
     capacity = nbt.getInt(TAG_CAPACITY);
     if (nbt.contains(TAG_FLUID, NbtType.COMPOUND)) {
       setFluid(FluidVolume.fromTag(nbt.getCompound(TAG_FLUID)));
@@ -189,10 +189,10 @@ public class CastingFluidHandler implements IFluidHandler {
   }
 
   /** Write the tank from NBT */
-  public CompoundTag writeToNBT(CompoundTag nbt) {
+  public NbtCompound writeToNBT(NbtCompound nbt) {
     nbt.putInt(TAG_CAPACITY, capacity);
     if (!fluid.isEmpty()) {
-      nbt.put(TAG_FLUID, fluid.toTag(new CompoundTag()));
+      nbt.put(TAG_FLUID, fluid.toTag(new NbtCompound()));
     }
     if (filter != Fluids.EMPTY) {
       nbt.putString(TAG_FILTER, Objects.requireNonNull(Registry.FLUID.getId(filter)).toString());

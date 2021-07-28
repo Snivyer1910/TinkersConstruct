@@ -7,7 +7,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Tickable;
@@ -165,7 +165,7 @@ public class MelterTileEntity extends NamableTileEntity implements ITankTileEnti
    */
 
   @Override
-  public void fromTag(BlockState state, CompoundTag tag) {
+  public void fromTag(BlockState state, NbtCompound tag) {
     super.fromTag(state, tag);
     tank.readFromNBT(tag.getCompound(Tags.TANK));
     fuelModule.readFromNBT(tag);
@@ -175,14 +175,14 @@ public class MelterTileEntity extends NamableTileEntity implements ITankTileEnti
   }
 
   @Override
-  public void writeSynced(CompoundTag tag) {
-    tag.put(Tags.TANK, tank.writeToNBT(new CompoundTag()));
+  public void writeSynced(NbtCompound tag) {
+    tag.put(Tags.TANK, tank.writeToNBT(new NbtCompound()));
     tag.put(TAG_INVENTORY, meltingInventory.writeToNBT());
   }
 
   @Override
-  public CompoundTag toTag(CompoundTag tag) {
-    tag = super.toTag(tag);
+  public NbtCompound writeNbt(NbtCompound tag) {
+    tag = super.writeNbt(tag);
     fuelModule.writeToNBT(tag);
     return tag;
   }

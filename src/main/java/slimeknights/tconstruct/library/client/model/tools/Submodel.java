@@ -112,7 +112,7 @@ public class Submodel implements UnbakedModel, BakedModel {
   @Override
   public BakedModel bake(ModelLoader loader, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer, Identifier modelId) {
     UnbakedModel unbakedModel = model;
-    boolean uvLock = this.modelTransform.isShaded() || modelTransform.isShaded();
+    boolean uvLock = this.modelTransform.isUvLocked() || modelTransform.isUvLocked();
     ModelBakeSettings transform = new SimpleModelBakeSettings(this.modelTransform, modelTransform, uvLock);
     if (model instanceof JsonUnbakedModel) {
       JsonUnbakedModel blockmodel = (JsonUnbakedModel)model;

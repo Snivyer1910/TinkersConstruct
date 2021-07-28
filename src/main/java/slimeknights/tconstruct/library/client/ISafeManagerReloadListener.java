@@ -1,14 +1,14 @@
 package slimeknights.tconstruct.library.client;
 
 import net.minecraft.resource.ResourceManager;
-import net.minecraft.resource.SynchronousResourceReloadListener;
+import net.minecraft.resource.SynchronousResourceReloader;
 
 /**
- * Same as {@link SynchronousResourceReloadListener}, but only runs if the mod loader state is valid
+ * Same as {@link SynchronousResourceReloader}, but only runs if the mod loader state is valid
  */
-public interface ISafeManagerReloadListener extends SynchronousResourceReloadListener {
+public interface ISafeManagerReloadListener extends SynchronousResourceReloader {
   @Override
-  default void apply(ResourceManager resourceManager) {
+  default void reload(ResourceManager resourceManager) {
     onReloadSafe(resourceManager);
   }
 
